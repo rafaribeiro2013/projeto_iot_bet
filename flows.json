@@ -1,0 +1,203 @@
+[
+    {
+        "id": "172de7a5c795e26c",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "68b18e87cb36ccd4",
+        "type": "mqtt in",
+        "z": "172de7a5c795e26c",
+        "name": "",
+        "topic": "bet/autenticaCliente",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fa7923ade7c363e8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 340,
+        "wires": [
+            [
+                "7c968a0c33aecffc",
+                "2cab5d328a22a173"
+            ]
+        ]
+    },
+    {
+        "id": "7c968a0c33aecffc",
+        "type": "change",
+        "z": "172de7a5c795e26c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters.id",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 340,
+        "wires": [
+            [
+                "a7d54616fbe3a528",
+                "2ed6732b57f67c55"
+            ]
+        ]
+    },
+    {
+        "id": "a7d54616fbe3a528",
+        "type": "postgresql",
+        "z": "172de7a5c795e26c",
+        "name": "",
+        "query": "SELECT clientes.*\nFROM copos\nJOIN clientes ON clientes.id = copos.id_cliente\nWHERE copos.rfid = $id;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 870,
+        "y": 340,
+        "wires": [
+            [
+                "c0e94e57ebc29310",
+                "752946d3946e78b9"
+            ]
+        ]
+    },
+    {
+        "id": "c0e94e57ebc29310",
+        "type": "debug",
+        "z": "172de7a5c795e26c",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "2ed6732b57f67c55",
+        "type": "debug",
+        "z": "172de7a5c795e26c",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "2cab5d328a22a173",
+        "type": "debug",
+        "z": "172de7a5c795e26c",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "752946d3946e78b9",
+        "type": "mqtt out",
+        "z": "172de7a5c795e26c",
+        "name": "",
+        "topic": "dadosCliente",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fa7923ade7c363e8",
+        "x": 1170,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "fa7923ade7c363e8",
+        "type": "mqtt-broker",
+        "name": "MQTT",
+        "broker": "mqtt.janks.dev.br",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "5",
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1251550e75985b59",
+        "type": "postgreSQLConfig",
+        "name": "PostgreSQL",
+        "host": "postgresql.janks.dev.br",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "projeto_b",
+        "databaseFieldType": "str",
+        "ssl": "true",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "iot",
+        "userFieldType": "str",
+        "password": "pepcon-garton",
+        "passwordFieldType": "str"
+    }
+]
