@@ -37,21 +37,22 @@ void reconectarMQTT() {
         }
         Serial.println(" conectado!");
 
-        //mqtt.subscribe("topico1"); 
+        mqtt.subscribe("codigo-pix"); 
     }
 }
 
 void recebeuMensagem(String topico, String conteudo) {
     Serial.println(topico + ": " + conteudo);
+    if (topico == "codigo-pix") {
+        tela.fillScreen(GxEPD_WHITE);
+        qrcode.setScale(3);
+        qrcode.draw(conteudo, 100, 30);
+        tela.display(true);
+    }
 }
 
 void fecharConta(float valorTotal){
-    //Enviar o valor para um tópico MQTT para que seja feita a cobrança pelo servidor
     mqtt.publish("conta", String(valorTotal));
-    String codigoPix = "";
-    qrcode.setScale(3);
-    qrcode.draw(codigoPix, 100, 30);
-    tela.display(true);
 }
 
 void setup(){
