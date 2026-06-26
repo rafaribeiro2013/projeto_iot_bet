@@ -1,0 +1,33 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(123, 14);
+fontes.print("Apostas");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+fontes.setCursor(10, 33);
+fontes.print("Flamengo X Fluminense");
+
+fontes.setCursor(10, 49);
+fontes.print("Aposta: Flamengo vence");
+
+tela.drawLine(10, 57, 286, 57, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_open_iconic_all_4x_t);
+fontes.setFontMode(1);
+fontes.setCursor(8, 94);
+fontes.print("V");
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(48, 84);
+fontes.print("1 cerveja gratis!");
+
+tela.drawRect(47, 101, 202, 22, GxEPD_BLACK);
+tela.drawRect(49, 103, 198, 18, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(107, 119);
+fontes.print("CONFIRMAR");

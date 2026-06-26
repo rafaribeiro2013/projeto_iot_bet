@@ -1,0 +1,27 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(99, 14);
+fontes.print("Minhas Apostas");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+tela.drawLine(0, 72, 296, 72, GxEPD_BLACK);
+
+fontes.setCursor(10, 43);
+fontes.print("Flamengo x Fluminense");
+
+fontes.setCursor(10, 59);
+fontes.print("Apostei: Flamengo vence");
+
+fontes.setCursor(220, 59);
+fontes.print("Pendente");
+
+fontes.setCursor(10, 97);
+fontes.print("Brasil x Argentina");
+
+fontes.setCursor(10, 113);
+fontes.print("Apostei: Empate");
+
+fontes.setCursor(230, 113);
+fontes.print("Perdeu");

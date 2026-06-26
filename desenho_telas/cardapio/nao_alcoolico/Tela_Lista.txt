@@ -1,0 +1,46 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(99, 14);
+fontes.print("Não Alcoólico");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+tela.drawLine(0, 46, 296, 46, GxEPD_BLACK);
+tela.drawLine(0, 74, 296, 74, GxEPD_BLACK);
+tela.drawLine(0, 102, 296, 102, GxEPD_BLACK);
+
+tela.fillTriangle(4, 24, 4, 40, 14, 32, GxEPD_BLACK);
+
+tela.fillTriangle(272, 24, 272, 40, 282, 32, GxEPD_BLACK);
+tela.fillTriangle(272, 52, 272, 68, 282, 60, GxEPD_BLACK);
+tela.fillTriangle(272, 80, 272, 96, 282, 88, GxEPD_BLACK);
+tela.fillTriangle(272, 107, 272, 123, 282, 115, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(22, 38);
+fontes.print("Suco de Laranja");
+
+fontes.setCursor(22, 66);
+fontes.print("Refrigerante");
+
+fontes.setCursor(22, 94);
+fontes.print("Água");
+
+fontes.setCursor(22, 122);
+fontes.print("Limonada");
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(218, 38);
+fontes.print("R$10");
+
+fontes.setCursor(218, 66);
+fontes.print("R$8");
+
+fontes.setCursor(218, 94);
+fontes.print("R$5");
+
+fontes.setCursor(218, 122);
+fontes.print("R$12");

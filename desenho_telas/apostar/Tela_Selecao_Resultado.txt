@@ -1,0 +1,29 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(123, 14);
+fontes.print("Apostas");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+fontes.setCursor(60, 34);
+fontes.print("Flamengo  X  Fluminense");
+tela.drawLine(0, 40, 296, 40, GxEPD_BLACK);
+
+tela.drawLine(0, 67, 296, 67, GxEPD_BLACK);
+tela.drawLine(0, 94, 296, 94, GxEPD_BLACK);
+
+tela.fillTriangle(4, 45, 4, 61, 14, 53, GxEPD_BLACK);
+
+tela.fillTriangle(272, 45, 272, 61, 282, 53, GxEPD_BLACK);
+tela.fillTriangle(272, 72, 272, 88, 282, 80, GxEPD_BLACK);
+tela.fillTriangle(272, 103, 272, 119, 282, 111, GxEPD_BLACK);
+
+fontes.setCursor(22, 59);
+fontes.print("Flamengo vence");
+
+fontes.setCursor(22, 86);
+fontes.print("Empate");
+
+fontes.setCursor(22, 117);
+fontes.print("Fluminense vence");

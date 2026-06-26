@@ -1,0 +1,22 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(115, 14);
+fontes.print("Pedidos");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+tela.drawLine(0, 73, 296, 73, GxEPD_BLACK);
+
+tela.fillTriangle(4, 37, 4, 53, 14, 45, GxEPD_BLACK);
+
+tela.fillTriangle(272, 37, 272, 53, 282, 45, GxEPD_BLACK);
+tela.fillTriangle(272, 92, 272, 108, 282, 100, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(22, 51);
+fontes.print("Ver Pedidos");
+
+fontes.setCursor(22, 106);
+fontes.print("Pagar Conta");

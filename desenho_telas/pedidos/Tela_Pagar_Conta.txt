@@ -1,0 +1,18 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(115, 14);
+fontes.print("Pedidos");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+fontes.setCursor(92, 31);
+fontes.print("Total: R$ 54,00");
+
+tela.drawLine(10, 38, 286, 38, GxEPD_BLACK);
+
+qrcode.setScale(2);
+qrcode.draw("https://google.com", 119, 42);
+
+fontes.setCursor(106, 120);
+fontes.print("Pague via Pix");

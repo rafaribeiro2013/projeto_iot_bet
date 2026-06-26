@@ -1,0 +1,32 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(127, 14);
+fontes.print("Drinks");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB18_te);
+fontes.setFontMode(1);
+fontes.setCursor(10, 46);
+fontes.print("Caipirinha");
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(10, 63);
+fontes.print("Limão, cachaça e açúcar");
+
+tela.drawLine(10, 71, 286, 71, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB18_te);
+fontes.setFontMode(1);
+fontes.setCursor(10, 94);
+fontes.print("R$ 18,00");
+
+tela.drawRect(67, 104, 162, 22, GxEPD_BLACK);
+tela.drawRect(69, 106, 158, 18, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(126, 120);
+fontes.print("PEDIR");

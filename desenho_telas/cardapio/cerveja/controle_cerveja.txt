@@ -1,0 +1,33 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(110, 14);
+fontes.print("Cervejas");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+fontes.setCursor(10, 33);
+fontes.print("Consumo da mesa");
+tela.drawLine(10, 38, 286, 38, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB24_te);
+fontes.setFontMode(1);
+fontes.setCursor(88, 64);
+fontes.print("R$ 47,50");
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(10, 80);
+fontes.print("12 copos consumidos");
+
+tela.drawLine(10, 88, 286, 88, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_open_iconic_all_4x_t);
+fontes.setFontMode(1);
+fontes.setCursor(8, 121);
+fontes.print("V");
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(48, 112);
+fontes.print("2 cervejas grátis!");

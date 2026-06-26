@@ -1,0 +1,31 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB24_te);
+fontes.setFontMode(1);
+fontes.setCursor(100, 30);
+fontes.print("BetBar");
+
+tela.drawCircle(20, 50, 7, GxEPD_BLACK);
+tela.fillCircle(20, 50, 2, GxEPD_BLACK);
+tela.drawLine(20, 50, 20, 43, GxEPD_BLACK);
+tela.drawLine(20, 50, 27, 48, GxEPD_BLACK);
+tela.drawLine(20, 50, 24, 56, GxEPD_BLACK);
+tela.drawLine(20, 50, 16, 56, GxEPD_BLACK);
+tela.drawLine(20, 50, 13, 48, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(35, 56);
+fontes.print("Aposte e ganhe cerveja");
+
+tela.drawRect(263, 42, 12, 17, GxEPD_BLACK);
+tela.fillRect(264, 47, 10, 10, GxEPD_BLACK);
+tela.drawRect(275, 47,  5,  8, GxEPD_BLACK);
+
+tela.drawLine(10, 67, 286, 67, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(30, 105);
+fontes.print("Aperte o botão para começar!");
+

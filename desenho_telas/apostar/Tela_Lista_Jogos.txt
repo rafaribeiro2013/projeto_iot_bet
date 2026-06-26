@@ -1,0 +1,48 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(123, 14);
+fontes.print("Apostas");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+tela.drawLine(0, 46, 296, 46, GxEPD_BLACK);
+tela.drawLine(0, 74, 296, 74, GxEPD_BLACK);
+tela.drawLine(0, 102, 296, 102, GxEPD_BLACK);
+
+tela.fillTriangle(4, 24, 4, 40, 14, 32, GxEPD_BLACK);
+
+tela.fillTriangle(272, 24, 272, 40, 282, 32, GxEPD_BLACK);
+tela.fillTriangle(272, 52, 272, 68, 282, 60, GxEPD_BLACK);
+tela.fillTriangle(272, 80, 272, 96, 282, 88, GxEPD_BLACK);
+tela.fillTriangle(272, 107, 272, 123, 282, 115, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(22, 38);
+fontes.print("Flamengo");
+fontes.setCursor(136, 38);
+fontes.print("x");
+fontes.setCursor(150, 38);
+fontes.print("Fluminense");
+
+fontes.setCursor(22, 66);
+fontes.print("Vasco");
+fontes.setCursor(136, 66);
+fontes.print("x");
+fontes.setCursor(150, 66);
+fontes.print("Botafogo");
+
+fontes.setCursor(22, 94);
+fontes.print("Brasil");
+fontes.setCursor(136, 94);
+fontes.print("x");
+fontes.setCursor(150, 94);
+fontes.print("Argentina");
+
+fontes.setCursor(22, 122);
+fontes.print("Real Madrid");
+fontes.setCursor(136, 122);
+fontes.print("x");
+fontes.setCursor(150, 122);
+fontes.print("Barcelona");

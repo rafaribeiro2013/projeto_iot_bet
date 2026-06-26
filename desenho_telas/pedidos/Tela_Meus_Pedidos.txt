@@ -1,0 +1,41 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(106, 14);
+fontes.print("Meus Pedidos");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+tela.drawLine(0, 46, 296, 46, GxEPD_BLACK);
+tela.drawLine(0, 74, 296, 74, GxEPD_BLACK);
+tela.drawLine(0, 102, 296, 102, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(10, 38);
+fontes.print("Caipirinha");
+
+fontes.setCursor(10, 66);
+fontes.print("Batata Frita");
+
+fontes.setCursor(10, 94);
+fontes.print("Mojito");
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(238, 38);
+fontes.print("R$18");
+
+fontes.setCursor(238, 66);
+fontes.print("R$16");
+
+fontes.setCursor(238, 94);
+fontes.print("R$20");
+
+fontes.setCursor(10, 122);
+fontes.print("Total:");
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(228, 122);
+fontes.print("R$54");

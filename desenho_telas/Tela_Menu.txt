@@ -1,0 +1,52 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(128, 14);
+fontes.print("MENU");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+tela.drawLine(148, 19, 148, 127, GxEPD_BLACK);
+tela.drawLine(0, 73, 296, 73, GxEPD_BLACK);
+
+tela.drawRect(3, 22, 142, 48, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_open_iconic_all_4x_t);
+fontes.setFontMode(1);
+fontes.setCursor(58, 54);
+fontes.print("a");
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(46, 66);
+fontes.print("Cardápio");
+
+fontes.setFont(u8g2_font_open_iconic_all_4x_t);
+fontes.setFontMode(1);
+fontes.setCursor(206, 54);
+fontes.print("X");
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(198, 66);
+fontes.print("Apostar");
+
+fontes.setFont(u8g2_font_open_iconic_all_4x_t);
+fontes.setFontMode(1);
+fontes.setCursor(58, 108);
+fontes.print("q");
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(49, 120);
+fontes.print("Pedidos");
+
+fontes.setFont(u8g2_font_open_iconic_all_4x_t);
+fontes.setFontMode(1);
+fontes.setCursor(206, 108);
+fontes.print("z");
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(165, 120);
+fontes.print("Minhas Apostas");

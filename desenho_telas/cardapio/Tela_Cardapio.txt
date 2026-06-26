@@ -1,0 +1,32 @@
+tela.fillScreen(GxEPD_WHITE);
+
+fontes.setFont(u8g2_font_helvB12_te);
+fontes.setFontMode(1);
+fontes.setCursor(105, 14);
+fontes.print("Cardápio");
+tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
+
+tela.drawLine(0, 46, 296, 46, GxEPD_BLACK);
+tela.drawLine(0, 74, 296, 74, GxEPD_BLACK);
+tela.drawLine(0, 102, 296, 102, GxEPD_BLACK);
+
+tela.fillTriangle(4, 24, 4, 40, 14, 32, GxEPD_BLACK);
+
+tela.fillTriangle(280, 24, 280, 40, 290, 32, GxEPD_BLACK);
+tela.fillTriangle(280, 52, 280, 68, 290, 60, GxEPD_BLACK);
+tela.fillTriangle(280, 80, 280, 96, 290, 88, GxEPD_BLACK);
+tela.fillTriangle(280, 107, 280, 123, 290, 115, GxEPD_BLACK);
+
+fontes.setFont(u8g2_font_helvB14_te);
+fontes.setFontMode(1);
+fontes.setCursor(22, 38);
+fontes.print("Cervejas");
+
+fontes.setCursor(22, 66);
+fontes.print("Drinks");
+
+fontes.setCursor(22, 94);
+fontes.print("Petiscos");
+
+fontes.setCursor(22, 122);
+fontes.print("Não Alcoólico");
