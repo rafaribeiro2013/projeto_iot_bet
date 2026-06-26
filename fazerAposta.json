@@ -1,0 +1,203 @@
+[
+  {
+      "id": "8c214f44c56ecffc",
+      "type": "tab",
+      "label": "Fluxo 5",
+      "disabled": false,
+      "info": "",
+      "env": []
+  },
+  {
+      "id": "603cebc911013355",
+      "type": "mqtt in",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/realizarAposta",
+      "qos": "2",
+      "datatype": "auto-detect",
+      "broker": "fa7923ade7c363e8",
+      "nl": false,
+      "rap": true,
+      "rh": 0,
+      "inputs": 0,
+      "x": 230,
+      "y": 280,
+      "wires": [
+          [
+              "7fb9e57a9c6a4c44",
+              "d54d3b1079fa7aa2"
+          ]
+      ]
+  },
+  {
+      "id": "7fb9e57a9c6a4c44",
+      "type": "change",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "rules": [
+          {
+              "t": "move",
+              "p": "payload",
+              "pt": "msg",
+              "to": "queryParameters",
+              "tot": "msg"
+          }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 550,
+      "y": 280,
+      "wires": [
+          [
+              "21c54c18ec453920",
+              "6d040681f2d8cfe1"
+          ]
+      ]
+  },
+  {
+      "id": "21c54c18ec453920",
+      "type": "postgresql",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "query": "INSERT INTO bets (id_cliente, id_partida, id_time_apostado) VALUES\n($id_cliente, $id_partida, $id_time_apostado)",
+      "postgreSQLConfig": "1251550e75985b59",
+      "split": false,
+      "rowsPerMsg": 1,
+      "outputs": 1,
+      "x": 890,
+      "y": 280,
+      "wires": [
+          [
+              "5ac8a1d7d49ed7ec",
+              "ac4e7c98a04e89cd"
+          ]
+      ]
+  },
+  {
+      "id": "5ac8a1d7d49ed7ec",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 12",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 1140,
+      "y": 180,
+      "wires": []
+  },
+  {
+      "id": "6d040681f2d8cfe1",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 13",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 820,
+      "y": 180,
+      "wires": []
+  },
+  {
+      "id": "d54d3b1079fa7aa2",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 14",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 480,
+      "y": 180,
+      "wires": []
+  },
+  {
+      "id": "ac4e7c98a04e89cd",
+      "type": "mqtt out",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/apostaConfirmada",
+      "qos": "1",
+      "retain": "",
+      "respTopic": "",
+      "contentType": "",
+      "userProps": "",
+      "correl": "",
+      "expiry": "",
+      "broker": "fa7923ade7c363e8",
+      "x": 1180,
+      "y": 280,
+      "wires": []
+  },
+  {
+      "id": "fa7923ade7c363e8",
+      "type": "mqtt-broker",
+      "name": "MQTT",
+      "broker": "mqtt.janks.dev.br",
+      "port": "8883",
+      "tls": "",
+      "clientid": "",
+      "autoConnect": true,
+      "usetls": true,
+      "protocolVersion": "5",
+      "keepalive": 60,
+      "cleansession": true,
+      "autoUnsubscribe": true,
+      "birthTopic": "",
+      "birthQos": "0",
+      "birthRetain": "false",
+      "birthPayload": "",
+      "birthMsg": {},
+      "closeTopic": "",
+      "closeQos": "0",
+      "closeRetain": "false",
+      "closePayload": "",
+      "closeMsg": {},
+      "willTopic": "",
+      "willQos": "0",
+      "willRetain": "false",
+      "willPayload": "",
+      "willMsg": {},
+      "userProps": "",
+      "sessionExpiry": ""
+  },
+  {
+      "id": "1251550e75985b59",
+      "type": "postgreSQLConfig",
+      "name": "PostgreSQL",
+      "host": "postgresql.janks.dev.br",
+      "hostFieldType": "str",
+      "port": "5432",
+      "portFieldType": "num",
+      "database": "projeto_b",
+      "databaseFieldType": "str",
+      "ssl": "true",
+      "sslFieldType": "bool",
+      "applicationName": "",
+      "applicationNameType": "str",
+      "max": "10",
+      "maxFieldType": "num",
+      "idle": "1000",
+      "idleFieldType": "num",
+      "connectionTimeout": "10000",
+      "connectionTimeoutFieldType": "num",
+      "user": "iot",
+      "userFieldType": "str",
+      "password": "pepcon-garton",
+      "passwordFieldType": "str"
+  }
+]

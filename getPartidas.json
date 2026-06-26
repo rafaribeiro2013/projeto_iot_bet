@@ -1,0 +1,203 @@
+[
+  {
+      "id": "b13f1e06dc2322b6",
+      "type": "tab",
+      "label": "Fluxo 4",
+      "disabled": false,
+      "info": "",
+      "env": []
+  },
+  {
+      "id": "56fdf2eb9779e143",
+      "type": "mqtt in",
+      "z": "b13f1e06dc2322b6",
+      "name": "",
+      "topic": "bet/getPartidas",
+      "qos": "2",
+      "datatype": "auto-detect",
+      "broker": "fa7923ade7c363e8",
+      "nl": false,
+      "rap": true,
+      "rh": 0,
+      "inputs": 0,
+      "x": 180,
+      "y": 340,
+      "wires": [
+          [
+              "1c50a21ed401aa42",
+              "26b00654e7c84788"
+          ]
+      ]
+  },
+  {
+      "id": "1c50a21ed401aa42",
+      "type": "change",
+      "z": "b13f1e06dc2322b6",
+      "name": "",
+      "rules": [
+          {
+              "t": "move",
+              "p": "payload",
+              "pt": "msg",
+              "to": "queryParameters.id",
+              "tot": "msg"
+          }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 510,
+      "y": 340,
+      "wires": [
+          [
+              "6a4c708ac44274a9",
+              "876be3bca1c7cfdb"
+          ]
+      ]
+  },
+  {
+      "id": "6a4c708ac44274a9",
+      "type": "postgresql",
+      "z": "b13f1e06dc2322b6",
+      "name": "",
+      "query": "SELECT *\nFROM partidas\nWHERE status = 'em_andamento';",
+      "postgreSQLConfig": "1251550e75985b59",
+      "split": false,
+      "rowsPerMsg": 1,
+      "outputs": 1,
+      "x": 810,
+      "y": 340,
+      "wires": [
+          [
+              "e0cb61b5f9d6f94c",
+              "cd66792d075c699d"
+          ]
+      ]
+  },
+  {
+      "id": "e0cb61b5f9d6f94c",
+      "type": "debug",
+      "z": "b13f1e06dc2322b6",
+      "name": "debug 9",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 1100,
+      "y": 240,
+      "wires": []
+  },
+  {
+      "id": "876be3bca1c7cfdb",
+      "type": "debug",
+      "z": "b13f1e06dc2322b6",
+      "name": "debug 10",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 780,
+      "y": 240,
+      "wires": []
+  },
+  {
+      "id": "26b00654e7c84788",
+      "type": "debug",
+      "z": "b13f1e06dc2322b6",
+      "name": "debug 11",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 440,
+      "y": 240,
+      "wires": []
+  },
+  {
+      "id": "cd66792d075c699d",
+      "type": "mqtt out",
+      "z": "b13f1e06dc2322b6",
+      "name": "",
+      "topic": "bet/retornaPartidas",
+      "qos": "1",
+      "retain": "",
+      "respTopic": "",
+      "contentType": "",
+      "userProps": "",
+      "correl": "",
+      "expiry": "",
+      "broker": "fa7923ade7c363e8",
+      "x": 1110,
+      "y": 340,
+      "wires": []
+  },
+  {
+      "id": "fa7923ade7c363e8",
+      "type": "mqtt-broker",
+      "name": "MQTT",
+      "broker": "mqtt.janks.dev.br",
+      "port": "8883",
+      "tls": "",
+      "clientid": "",
+      "autoConnect": true,
+      "usetls": true,
+      "protocolVersion": "5",
+      "keepalive": 60,
+      "cleansession": true,
+      "autoUnsubscribe": true,
+      "birthTopic": "",
+      "birthQos": "0",
+      "birthRetain": "false",
+      "birthPayload": "",
+      "birthMsg": {},
+      "closeTopic": "",
+      "closeQos": "0",
+      "closeRetain": "false",
+      "closePayload": "",
+      "closeMsg": {},
+      "willTopic": "",
+      "willQos": "0",
+      "willRetain": "false",
+      "willPayload": "",
+      "willMsg": {},
+      "userProps": "",
+      "sessionExpiry": ""
+  },
+  {
+      "id": "1251550e75985b59",
+      "type": "postgreSQLConfig",
+      "name": "PostgreSQL",
+      "host": "postgresql.janks.dev.br",
+      "hostFieldType": "str",
+      "port": "5432",
+      "portFieldType": "num",
+      "database": "projeto_b",
+      "databaseFieldType": "str",
+      "ssl": "true",
+      "sslFieldType": "bool",
+      "applicationName": "",
+      "applicationNameType": "str",
+      "max": "10",
+      "maxFieldType": "num",
+      "idle": "1000",
+      "idleFieldType": "num",
+      "connectionTimeout": "10000",
+      "connectionTimeoutFieldType": "num",
+      "user": "iot",
+      "userFieldType": "str",
+      "password": "pepcon-garton",
+      "passwordFieldType": "str"
+  }
+]
