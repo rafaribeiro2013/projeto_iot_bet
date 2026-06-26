@@ -15,6 +15,7 @@ static void _processarDadosCliente(const String& conteudo) {
     Serial.println("[Apostas] Erro ao parsear dadosCliente.");
     return;
   }
+  // TODO: Verificar se doc é uma lista vazia, e dar erro se nâo for
   JsonObject obj = doc[0];  // array com um elemento
   Cliente c;
   c.id           = obj["id"]            | 0;
@@ -97,8 +98,8 @@ static void _processarPartidas(const String& conteudo) {
   for (JsonObject p : array) {
     if (i >= total) break;
     lista[i].id         = p["id"]        | 0;
-    lista[i].idTimeCasa = p["time_casa"] | 0;
-    lista[i].idTimeFora = p["time_fora"] | 0;
+    lista[i].idTimeCasa = p["mandante"] | 0;
+    lista[i].idTimeFora = p["visitante"] | 0;
     lista[i].data       = p["data"]      | "";
     i++;
   }
