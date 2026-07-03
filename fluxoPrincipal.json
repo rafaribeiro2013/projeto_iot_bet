@@ -1,0 +1,611 @@
+[
+  {
+      "id": "8c214f44c56ecffc",
+      "type": "tab",
+      "label": "Fluxo 5",
+      "disabled": false,
+      "info": "",
+      "env": []
+  },
+  {
+      "id": "603cebc911013355",
+      "type": "mqtt in",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/realizarAposta",
+      "qos": "2",
+      "datatype": "auto-detect",
+      "broker": "fa7923ade7c363e8",
+      "nl": false,
+      "rap": true,
+      "rh": 0,
+      "inputs": 0,
+      "x": 210,
+      "y": 780,
+      "wires": [
+          [
+              "7fb9e57a9c6a4c44",
+              "d54d3b1079fa7aa2"
+          ]
+      ]
+  },
+  {
+      "id": "7fb9e57a9c6a4c44",
+      "type": "change",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "rules": [
+          {
+              "t": "move",
+              "p": "payload",
+              "pt": "msg",
+              "to": "queryParameters",
+              "tot": "msg"
+          }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 530,
+      "y": 780,
+      "wires": [
+          [
+              "21c54c18ec453920",
+              "6d040681f2d8cfe1"
+          ]
+      ]
+  },
+  {
+      "id": "21c54c18ec453920",
+      "type": "postgresql",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "query": "INSERT INTO bets (id_cliente, id_partida, id_time_apostado) VALUES\n($id_cliente, $id_partida, $id_time_apostado)",
+      "postgreSQLConfig": "1251550e75985b59",
+      "split": false,
+      "rowsPerMsg": 1,
+      "outputs": 1,
+      "x": 870,
+      "y": 780,
+      "wires": [
+          [
+              "5ac8a1d7d49ed7ec",
+              "ac4e7c98a04e89cd"
+          ]
+      ]
+  },
+  {
+      "id": "5ac8a1d7d49ed7ec",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 12",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 1120,
+      "y": 680,
+      "wires": []
+  },
+  {
+      "id": "6d040681f2d8cfe1",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 13",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 800,
+      "y": 680,
+      "wires": []
+  },
+  {
+      "id": "d54d3b1079fa7aa2",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 14",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 460,
+      "y": 680,
+      "wires": []
+  },
+  {
+      "id": "ac4e7c98a04e89cd",
+      "type": "mqtt out",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/apostaConfirmada",
+      "qos": "1",
+      "retain": "",
+      "respTopic": "",
+      "contentType": "",
+      "userProps": "",
+      "correl": "",
+      "expiry": "",
+      "broker": "fa7923ade7c363e8",
+      "x": 1160,
+      "y": 780,
+      "wires": []
+  },
+  {
+      "id": "d8b8476dfc2c2b42",
+      "type": "mqtt in",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/consultarAposta",
+      "qos": "2",
+      "datatype": "auto-detect",
+      "broker": "fa7923ade7c363e8",
+      "nl": false,
+      "rap": true,
+      "rh": 0,
+      "inputs": 0,
+      "x": 210,
+      "y": 1060,
+      "wires": [
+          [
+              "da06fa2bc414749d",
+              "04c6a04fc4eb2d14"
+          ]
+      ]
+  },
+  {
+      "id": "da06fa2bc414749d",
+      "type": "change",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "rules": [
+          {
+              "t": "move",
+              "p": "payload",
+              "pt": "msg",
+              "to": "queryParameters",
+              "tot": "msg"
+          }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 530,
+      "y": 1060,
+      "wires": [
+          [
+              "a1109cd50e6345f3",
+              "d59a47f6a71d02e7"
+          ]
+      ]
+  },
+  {
+      "id": "a1109cd50e6345f3",
+      "type": "postgresql",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "query": "SELECT *\nFROM bets\nWHERE id_cliente = $id_cliente;",
+      "postgreSQLConfig": "1251550e75985b59",
+      "split": false,
+      "rowsPerMsg": 1,
+      "outputs": 1,
+      "x": 870,
+      "y": 1060,
+      "wires": [
+          [
+              "7c6589eafc2794ec",
+              "8bd5f46be9d2464e"
+          ]
+      ]
+  },
+  {
+      "id": "7c6589eafc2794ec",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 15",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 1120,
+      "y": 960,
+      "wires": []
+  },
+  {
+      "id": "d59a47f6a71d02e7",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 16",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 800,
+      "y": 960,
+      "wires": []
+  },
+  {
+      "id": "04c6a04fc4eb2d14",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 17",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 460,
+      "y": 960,
+      "wires": []
+  },
+  {
+      "id": "8bd5f46be9d2464e",
+      "type": "mqtt out",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/minhasApostas",
+      "qos": "1",
+      "retain": "",
+      "respTopic": "",
+      "contentType": "",
+      "userProps": "",
+      "correl": "",
+      "expiry": "",
+      "broker": "fa7923ade7c363e8",
+      "x": 1150,
+      "y": 1060,
+      "wires": []
+  },
+  {
+      "id": "ad910ee8fec3663b",
+      "type": "mqtt in",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/getPartidas",
+      "qos": "2",
+      "datatype": "auto-detect",
+      "broker": "fa7923ade7c363e8",
+      "nl": false,
+      "rap": true,
+      "rh": 0,
+      "inputs": 0,
+      "x": 220,
+      "y": 520,
+      "wires": [
+          [
+              "0c81a1216514b2e3",
+              "53f7f654089068f8"
+          ]
+      ]
+  },
+  {
+      "id": "0c81a1216514b2e3",
+      "type": "change",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "rules": [
+          {
+              "t": "move",
+              "p": "payload",
+              "pt": "msg",
+              "to": "queryParameters.id",
+              "tot": "msg"
+          }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 550,
+      "y": 520,
+      "wires": [
+          [
+              "43249a18b9f809ea",
+              "4570566911466c38"
+          ]
+      ]
+  },
+  {
+      "id": "43249a18b9f809ea",
+      "type": "postgresql",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "query": "SELECT *\nFROM partidas\nWHERE status = 'em_andamento';",
+      "postgreSQLConfig": "1251550e75985b59",
+      "split": false,
+      "rowsPerMsg": 1,
+      "outputs": 1,
+      "x": 850,
+      "y": 520,
+      "wires": [
+          [
+              "7c6856e4ebf58943",
+              "81fb64e1ab29c728"
+          ]
+      ]
+  },
+  {
+      "id": "7c6856e4ebf58943",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 18",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 1140,
+      "y": 420,
+      "wires": []
+  },
+  {
+      "id": "4570566911466c38",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 19",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 820,
+      "y": 420,
+      "wires": []
+  },
+  {
+      "id": "53f7f654089068f8",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 20",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 480,
+      "y": 420,
+      "wires": []
+  },
+  {
+      "id": "81fb64e1ab29c728",
+      "type": "mqtt out",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/partidas",
+      "qos": "1",
+      "retain": "",
+      "respTopic": "",
+      "contentType": "",
+      "userProps": "",
+      "correl": "",
+      "expiry": "",
+      "broker": "fa7923ade7c363e8",
+      "x": 1150,
+      "y": 520,
+      "wires": []
+  },
+  {
+      "id": "916df87a967f4de3",
+      "type": "mqtt in",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "bet/autenticaCliente",
+      "qos": "2",
+      "datatype": "auto-detect",
+      "broker": "fa7923ade7c363e8",
+      "nl": false,
+      "rap": true,
+      "rh": 0,
+      "inputs": 0,
+      "x": 230,
+      "y": 280,
+      "wires": [
+          [
+              "05288f4691b04404",
+              "0ceebc0d363488ea"
+          ]
+      ]
+  },
+  {
+      "id": "05288f4691b04404",
+      "type": "change",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "rules": [
+          {
+              "t": "move",
+              "p": "payload",
+              "pt": "msg",
+              "to": "queryParameters.id",
+              "tot": "msg"
+          }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 550,
+      "y": 280,
+      "wires": [
+          [
+              "37818e6e8ae44714",
+              "03196f8da5ab0204"
+          ]
+      ]
+  },
+  {
+      "id": "37818e6e8ae44714",
+      "type": "postgresql",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "query": "SELECT clientes.*\nFROM copos\nJOIN clientes ON clientes.id = copos.id_cliente\nWHERE copos.rfid = $id;",
+      "postgreSQLConfig": "1251550e75985b59",
+      "split": false,
+      "rowsPerMsg": 1,
+      "outputs": 1,
+      "x": 850,
+      "y": 280,
+      "wires": [
+          [
+              "fe002453da883781",
+              "4646ec12ad850ca9"
+          ]
+      ]
+  },
+  {
+      "id": "fe002453da883781",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 21",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 1120,
+      "y": 160,
+      "wires": []
+  },
+  {
+      "id": "03196f8da5ab0204",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 22",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 780,
+      "y": 180,
+      "wires": []
+  },
+  {
+      "id": "0ceebc0d363488ea",
+      "type": "debug",
+      "z": "8c214f44c56ecffc",
+      "name": "debug 23",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 480,
+      "y": 180,
+      "wires": []
+  },
+  {
+      "id": "4646ec12ad850ca9",
+      "type": "mqtt out",
+      "z": "8c214f44c56ecffc",
+      "name": "",
+      "topic": "dadosCliente",
+      "qos": "1",
+      "retain": "",
+      "respTopic": "",
+      "contentType": "",
+      "userProps": "",
+      "correl": "",
+      "expiry": "",
+      "broker": "fa7923ade7c363e8",
+      "x": 1230,
+      "y": 280,
+      "wires": []
+  },
+  {
+      "id": "fa7923ade7c363e8",
+      "type": "mqtt-broker",
+      "name": "MQTT",
+      "broker": "mqtt.janks.dev.br",
+      "port": "8883",
+      "tls": "",
+      "clientid": "",
+      "autoConnect": true,
+      "usetls": true,
+      "protocolVersion": "5",
+      "keepalive": 60,
+      "cleansession": true,
+      "autoUnsubscribe": true,
+      "birthTopic": "",
+      "birthQos": "0",
+      "birthRetain": "false",
+      "birthPayload": "",
+      "birthMsg": {},
+      "closeTopic": "",
+      "closeQos": "0",
+      "closeRetain": "false",
+      "closePayload": "",
+      "closeMsg": {},
+      "willTopic": "",
+      "willQos": "0",
+      "willRetain": "false",
+      "willPayload": "",
+      "willMsg": {},
+      "userProps": "",
+      "sessionExpiry": ""
+  },
+  {
+      "id": "1251550e75985b59",
+      "type": "postgreSQLConfig",
+      "name": "PostgreSQL",
+      "host": "postgresql.janks.dev.br",
+      "hostFieldType": "str",
+      "port": "5432",
+      "portFieldType": "num",
+      "database": "projeto_b",
+      "databaseFieldType": "str",
+      "ssl": "true",
+      "sslFieldType": "bool",
+      "applicationName": "",
+      "applicationNameType": "str",
+      "max": "10",
+      "maxFieldType": "num",
+      "idle": "1000",
+      "idleFieldType": "num",
+      "connectionTimeout": "10000",
+      "connectionTimeoutFieldType": "num",
+      "user": "iot",
+      "userFieldType": "str",
+      "password": "pepcon-garton",
+      "passwordFieldType": "str"
+  }
+]
