@@ -2,6 +2,8 @@
 #define DADOS_H
 
 #include "globais.h"
+#include "estado_dados.h"
+#include "apostas.h"
 
 // ===========================================================================
 // CAMADA DE DADOS (repositorio)
@@ -51,34 +53,46 @@ void obterProdutos(const char* categoria, JsonArray destino) {
 // Jogos disponiveis para aposta.
 // Cada item: { "id": <int>, "casa": <string>, "fora": <string> }
 void obterJogos(JsonArray destino) {
-  // MOCK: substituir pela lista de jogos vinda do banco.
-  JsonObject a = destino.add<JsonObject>();
-  a["id"] = 1; a["casa"] = "Flamengo";    a["fora"] = "Fluminense";
-  JsonObject b = destino.add<JsonObject>();
-  b["id"] = 2; b["casa"] = "Vasco";       b["fora"] = "Botafogo";
-  JsonObject c = destino.add<JsonObject>();
-  c["id"] = 3; c["casa"] = "Brasil";      c["fora"] = "Argentina";
-  JsonObject d = destino.add<JsonObject>();
-  d["id"] = 4; d["casa"] = "Real Madrid"; d["fora"] = "Barcelona";
+  for (uint8_t i = 0; i < totalPartidas; i++) {
+    JsonObject o = destino.add<JsonObject>();
+    o["id"] = partidas[i].id;
+    char casa[12], fora[12];
+    snprintf(casa, sizeof(casa), "Time %d", partidas[i].idTimeCasa);
+    snprintf(fora, sizeof(fora), "Time %d", partidas[i].idTimeFora);
+    o["casa"] = casa;
+    o["fora"] = fora;
+  }
 }
 
-// Apostas ja feitas pelo usuario.
+// Apostas ja feitas pelo usuario — lidas do buffer preenchido pelo MQTT.
 // Cada item: { "jogo": <string>, "palpite": <string>, "status": <string> }
 void obterApostas(JsonArray destino) {
-  // MOCK: substituir pelas apostas do usuario (banco, filtradas pelo id dele).
-  JsonObject a = destino.add<JsonObject>();
-  a["jogo"] = "Flamengo x Fluminense"; a["palpite"] = "Flamengo vence"; a["status"] = "Pendente";
-  JsonObject b = destino.add<JsonObject>();
-  b["jogo"] = "Brasil x Argentina";    b["palpite"] = "Empate";         b["status"] = "Perdeu";
+  for (uint8_t i = 0; i < totalApostas; i++) {
+    JsonObject o = destino.add<JsonObject>();
+    char jogo[16], palpite[16];
+    snprintf(jogo, sizeof(jogo), "Partida %d", apostas[i].idPartida);
+    if (apostas[i].idTimeApostado == TIME_EMPATE) snprintf(palpite, sizeof(palpite), "Empate");
+    else snprintf(palpite, sizeof(palpite), "Time %d", apostas[i].idTimeApostado);
+    o["jogo"]    = jogo;
+    o["palpite"] = palpite;
+    o["status"]  = "Pendente";
+  }
 }
 
-// Registra uma nova aposta. Hoje so loga; no futuro grava no banco no id do usuario.
+// Envia aposta real via MQTT.
 void registrarAposta(int jogoId, int palpite) {
-  // MOCK: enviar para o banco -> registrarAposta(usuarioId, jogoId, palpite).
-  Serial.print("registrarAposta -> jogo=");
-  Serial.print(jogoId);
-  Serial.print(" palpite=");
-  Serial.println(palpite);
+  Aposta a;
+  a.id = 0; a.createdAt = "";
+  a.idCliente = clienteAtual.id;
+  a.idPartida = jogoId;
+  int32_t casa = 0, fora = 0;
+  for (uint8_t i = 0; i < totalPartidas; i++) {
+    if (partidas[i].id == jogoId) { casa = partidas[i].idTimeCasa; fora = partidas[i].idTimeFora; break; }
+  }
+  if      (palpite == 0) a.idTimeApostado = casa;
+  else if (palpite == 2) a.idTimeApostado = fora;
+  else                   a.idTimeApostado = TIME_EMPATE;
+  apostasRealizar(a);
 }
 
 // Pedidos da mesa.

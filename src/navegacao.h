@@ -3,6 +3,7 @@
 
 #include "globais.h"
 #include "estado_dados.h"
+#include "apostas.h"
 #include "dados.h"
 #include "desenhos.h"
 
@@ -205,10 +206,23 @@ void selecionar() {
       break;
 
     case MENU:
-      if (estado.indice == 0)      irPara(CARDAPIO);
-      else if (estado.indice == 1) irPara(LISTA_JOGOS);
-      else if (estado.indice == 2) irPara(MENU_PEDIDOS);
-      else if (estado.indice == 3) irPara(MINHAS_APOSTAS);
+      if (estado.indice == 0) {
+        irPara(CARDAPIO);
+      } else if (estado.indice == 1) {
+        getPartidas();
+        strncpy(msgCarregando, "Buscando jogos", sizeof(msgCarregando) - 1);
+        empilhar();
+        estado.tipo = CARREGANDO; estado.indice = 1;
+        renderizarTelaAtual();
+      } else if (estado.indice == 2) {
+        irPara(MENU_PEDIDOS);
+      } else if (estado.indice == 3) {
+        apostasConsultar(clienteAtual.id);
+        strncpy(msgCarregando, "Buscando apostas", sizeof(msgCarregando) - 1);
+        empilhar();
+        estado.tipo = CARREGANDO; estado.indice = 2;
+        renderizarTelaAtual();
+      }
       break;
 
     case CARDAPIO:
