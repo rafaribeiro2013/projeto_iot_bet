@@ -567,6 +567,19 @@ void desenharAguardandoCartao() {
   tela.display(true);
 }
 
+void desenharAviso(const char* msg) {
+  tela.fillScreen(GxEPD_WHITE);
+  // triangulo de alerta
+  tela.drawTriangle(148, 30, 128, 66, 168, 66, GxEPD_BLACK);
+  fontes.setFont(u8g2_font_helvB18_te); fontes.setFontMode(1);
+  fontes.setCursor(144, 60); fontes.print("!");
+  fontes.setFont(u8g2_font_helvB12_te); fontes.setFontMode(1);
+  fontes.setCursor(centralizar(msg, 8), 92); fontes.print(msg);
+  fontes.setCursor(centralizar("Esquerda para voltar", 7), 116);
+  fontes.print("Esquerda para voltar");
+  tela.display(true);
+}
+
 void desenharCarregando(const char* msg) {
   tela.fillScreen(GxEPD_WHITE);
   fontes.setFont(u8g2_font_helvB18_te); fontes.setFontMode(1);

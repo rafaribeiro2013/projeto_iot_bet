@@ -20,7 +20,7 @@
 // ===========================================================================
 
 enum Tela {
-  AGUARDANDO_CARTAO, CARREGANDO,
+  AGUARDANDO_CARTAO, CARREGANDO, AVISO,
   INICIAL, MENU, CARDAPIO, LISTA_PRODUTOS, DETALHE_PRODUTO, CONTROLE_CERVEJA,
   LISTA_JOGOS, JOGO, CONFIRMACAO, CONFIRMADO,
   MENU_PEDIDOS, MEUS_PEDIDOS, PAGAR_CONTA, MINHAS_APOSTAS
@@ -72,6 +72,10 @@ void renderizarTelaAtual() {
       } else if (apostasProntas && estado.indice == 2) {
         estado.tipo = MINHAS_APOSTAS; estado.indice = 0; renderizarTelaAtual();
       }
+      break;
+
+    case AVISO:
+      desenharAviso(msgCarregando);
       break;
 
     case INICIAL:

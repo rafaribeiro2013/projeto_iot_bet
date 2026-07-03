@@ -112,6 +112,18 @@ void loop() {
     renderizarTelaAtual();
   }
 
+  static unsigned long inicioCarregando = 0;
+  if (estado.tipo == CARREGANDO) {
+    if (inicioCarregando == 0) inicioCarregando = millis();
+    if (millis() - inicioCarregando > 8000) {
+      strncpy(msgCarregando, "Sem resposta", sizeof(msgCarregando) - 1);
+      estado.tipo = AVISO; renderizarTelaAtual();
+      inicioCarregando = 0;
+    }
+  } else {
+    inicioCarregando = 0;
+  }
+
   if (precisaRedesenhar) {
     precisaRedesenhar = false;
     renderizarTelaAtual();
