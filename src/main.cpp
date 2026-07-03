@@ -1,7 +1,9 @@
 #include "globais.h"
 #include "modelo.h"
 #include "estado_dados.h"
+#include "wifi_module.h"
 #include "mqtt_module.h"
+#include "rfid_module.h"
 #include "apostas.h"
 #include "dados.h"
 #include "desenhos.h"
@@ -64,10 +66,25 @@ void setup() {
   botao_left.setPressHandler(botaoLeftPressionado);
   botao_right.setPressHandler(botaoRightPressionado);
 
+  wifiInit();
+  mqttInit();
+  rfidInit();
+  apostasInit();
+
   instanteAnterior = millis();
 }
 
 void loop() {
+  wifiReconectar();
+  mqttReconectar();
+  mqttLoop();
+
+  if (rfidNovoCartao()) {
+    String uid = rfidLerUID();
+    Serial.println("[Loop] Cartao UID: " + uid);
+    mqttPublicar(TOPICO_AUTENTICA_CLIENTE, uid);
+  }
+
   botao_mid.process();
   botao_up.process();
   botao_down.process();
@@ -87,6 +104,11 @@ void loop() {
     pilhaTopo = 0;
     estado.tipo = INICIAL;
     estado.indice = 0;
+    renderizarTelaAtual();
+  }
+
+  if (precisaRedesenhar) {
+    precisaRedesenhar = false;
     renderizarTelaAtual();
   }
 }
