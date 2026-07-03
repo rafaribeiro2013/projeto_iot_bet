@@ -54,7 +54,7 @@ void setup() {
   fontes.setForegroundColor(GxEPD_BLACK);
 
   // estado inicial + primeira renderizacao
-  estado.tipo = INICIAL;
+  estado.tipo = AGUARDANDO_CARTAO;
   estado.indice = 0;
   renderizarTelaAtual();
   Serial.println("Setup");
@@ -82,7 +82,11 @@ void loop() {
   if (rfidNovoCartao()) {
     String uid = rfidLerUID();
     Serial.println("[Loop] Cartao UID: " + uid);
+    clienteCarregado = false;
     mqttPublicar(TOPICO_AUTENTICA_CLIENTE, uid);
+    strncpy(msgCarregando, "Autenticando", sizeof(msgCarregando) - 1);
+    estado.tipo = CARREGANDO; estado.indice = 0;
+    renderizarTelaAtual();
   }
 
   botao_mid.process();
@@ -102,7 +106,8 @@ void loop() {
     Serial.println("+1 min sem interacao");
     instanteAnterior = instanteAtual;
     pilhaTopo = 0;
-    estado.tipo = INICIAL;
+    clienteCarregado = false;
+    estado.tipo = AGUARDANDO_CARTAO;
     estado.indice = 0;
     renderizarTelaAtual();
   }

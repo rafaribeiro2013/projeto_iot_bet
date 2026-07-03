@@ -2,6 +2,7 @@
 #define NAVEGACAO_H
 
 #include "globais.h"
+#include "estado_dados.h"
 #include "dados.h"
 #include "desenhos.h"
 
@@ -18,6 +19,7 @@
 // ===========================================================================
 
 enum Tela {
+  AGUARDANDO_CARTAO, CARREGANDO,
   INICIAL, MENU, CARDAPIO, LISTA_PRODUTOS, DETALHE_PRODUTO, CONTROLE_CERVEJA,
   LISTA_JOGOS, JOGO, CONFIRMACAO, CONFIRMADO,
   MENU_PEDIDOS, MEUS_PEDIDOS, PAGAR_CONTA, MINHAS_APOSTAS
@@ -34,7 +36,9 @@ struct EstadoTela {
   int  palpite;      // contexto: palpite escolhido (CONFIRMACAO/CONFIRMADO)
 };
 
-EstadoTela estado = { INICIAL, 0, "", 0, 0 };
+EstadoTela estado = { AGUARDANDO_CARTAO, 0, "", 0, 0 };
+
+char msgCarregando[24] = "";
 
 // Pilha de navegacao
 EstadoTela pilha[8];
@@ -53,6 +57,22 @@ void empilhar() {
 // ---------------------------------------------------------------------------
 void renderizarTelaAtual() {
   switch (estado.tipo) {
+    case AGUARDANDO_CARTAO:
+      desenharAguardandoCartao();
+      if (clienteCarregado) { estado.tipo = MENU; estado.indice = 0; desenharMenu(0); }
+      break;
+
+    case CARREGANDO:
+      desenharCarregando(msgCarregando);
+      if (clienteCarregado && estado.indice == 0) {
+        estado.tipo = MENU; estado.indice = 0; desenharMenu(0);
+      } else if (partidasProntas && estado.indice == 1) {
+        estado.tipo = LISTA_JOGOS; estado.indice = 0; renderizarTelaAtual();
+      } else if (apostasProntas && estado.indice == 2) {
+        estado.tipo = MINHAS_APOSTAS; estado.indice = 0; renderizarTelaAtual();
+      }
+      break;
+
     case INICIAL:
       desenharTelaInicial();
       break;

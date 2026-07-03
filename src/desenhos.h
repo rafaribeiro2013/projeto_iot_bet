@@ -552,4 +552,30 @@ void desenharMinhasApostas(JsonArray apostas) {
   tela.display(true);
 }
 
+void desenharAguardandoCartao() {
+  tela.fillScreen(GxEPD_WHITE);
+  fontes.setFont(u8g2_font_helvB24_te); fontes.setFontMode(1);
+  fontes.setCursor(centralizar("BetBar", 20), 34);
+  fontes.print("BetBar");
+  tela.drawLine(10, 44, 286, 44, GxEPD_BLACK);
+  // simbolo de cartao
+  tela.drawRoundRect(120, 58, 56, 34, 4, GxEPD_BLACK);
+  tela.fillRect(120, 66, 56, 8, GxEPD_BLACK);
+  fontes.setFont(u8g2_font_helvB12_te); fontes.setFontMode(1);
+  fontes.setCursor(centralizar("Encoste seu cartao", 8), 112);
+  fontes.print("Encoste seu cartao");
+  tela.display(true);
+}
+
+void desenharCarregando(const char* msg) {
+  tela.fillScreen(GxEPD_WHITE);
+  fontes.setFont(u8g2_font_helvB18_te); fontes.setFontMode(1);
+  fontes.setCursor(centralizar("Carregando...", 12), 56);
+  fontes.print("Carregando...");
+  fontes.setFont(u8g2_font_helvB12_te); fontes.setFontMode(1);
+  fontes.setCursor(centralizar(msg, 8), 84);
+  fontes.print(msg);
+  tela.display(true);
+}
+
 #endif
