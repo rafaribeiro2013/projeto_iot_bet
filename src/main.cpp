@@ -7,13 +7,14 @@
 U8G2_FOR_ADAFRUIT_GFX fontes;
 GxEPD2_290_T94_V2 modeloTela(10, 14, 15, 16);
 GxEPD2_BW<GxEPD2_290_T94_V2, GxEPD2_290_T94_V2::HEIGHT> tela(modeloTela);
+QRCodeGFX qrcode(tela);
 
 // --- Botoes ---
 GFButton botao_up(1);
 GFButton botao_down(2);
-GFButton botao_left(3);
-GFButton botao_right(4);
-GFButton botao_mid(5);
+GFButton botao_left(42);
+GFButton botao_right(41);
+GFButton botao_mid(40);
 
 // Controle de inatividade (volta para a tela inicial apos 1 min parado).
 unsigned long instanteAnterior = 0;
@@ -42,8 +43,6 @@ void setup() {
   botao_down.setPressHandler(botaoDownPressionado);
   botao_left.setPressHandler(botaoLeftPressionado);
   botao_right.setPressHandler(botaoRightPressionado);
-
-  botao_mid.setHoldHandler(botaoMidSegurado);
 
   instanteAnterior = millis();
 }

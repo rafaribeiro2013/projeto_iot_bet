@@ -176,6 +176,8 @@ void irParaMenu() {
 // ---------------------------------------------------------------------------
 // Selecionar (botao do meio): decide o proximo passo a partir do cursor.
 // ---------------------------------------------------------------------------
+void voltar();
+
 void selecionar() {
   switch (estado.tipo) {
     case INICIAL:
@@ -352,11 +354,22 @@ void moverCursor(Direcao dir) {
 extern unsigned long instanteAnterior;
 void registrarAtividade() { instanteAnterior = millis(); }
 
+// No MENU as setas navegam a grade 2x2 e o meio seleciona.
+// Nas demais telas: cima/baixo movem o cursor, esquerda VOLTA e direita AVANCA.
 void botaoMidPressionado(GFButton& b)   { registrarAtividade(); selecionar(); }
-void botaoMidSegurado(GFButton& b)      { registrarAtividade(); voltar(); }
 void botaoUpPressionado(GFButton& b)    { registrarAtividade(); moverCursor(CIMA); }
 void botaoDownPressionado(GFButton& b)  { registrarAtividade(); moverCursor(BAIXO); }
-void botaoLeftPressionado(GFButton& b)  { registrarAtividade(); moverCursor(ESQUERDA); }
-void botaoRightPressionado(GFButton& b) { registrarAtividade(); moverCursor(DIREITA); }
+
+void botaoLeftPressionado(GFButton& b) {
+  registrarAtividade();
+  if (estado.tipo == MENU) moverCursor(ESQUERDA);
+  else                     voltar();
+}
+
+void botaoRightPressionado(GFButton& b) {
+  registrarAtividade();
+  if (estado.tipo == MENU) moverCursor(DIREITA);
+  else                     selecionar();
+}
 
 #endif
