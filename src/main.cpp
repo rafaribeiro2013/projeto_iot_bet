@@ -1,6 +1,8 @@
 #include "globais.h"
 #include "modelo.h"
 #include "estado_dados.h"
+#include "mqtt_module.h"
+#include "apostas.h"
 #include "dados.h"
 #include "desenhos.h"
 #include "navegacao.h"
@@ -21,6 +23,11 @@ Aposta  apostas[20];
 uint8_t totalApostas   = 0;
 bool    apostasProntas  = false;
 volatile bool precisaRedesenhar = false;
+
+void mqttMensagemRecebida(String topico, String conteudo) {
+  Serial.println("[MQTT] " + topico + ": " + conteudo);
+  apostasProcessarMensagem(topico, conteudo);
+}
 
 // --- Botoes ---
 GFButton botao_up(1);
