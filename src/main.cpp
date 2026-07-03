@@ -1,4 +1,6 @@
 #include "globais.h"
+#include "modelo.h"
+#include "estado_dados.h"
 #include "dados.h"
 #include "desenhos.h"
 #include "navegacao.h"
@@ -8,6 +10,17 @@ U8G2_FOR_ADAFRUIT_GFX fontes;
 GxEPD2_290_T94_V2 modeloTela(10, 14, 15, 16);
 GxEPD2_BW<GxEPD2_290_T94_V2, GxEPD2_290_T94_V2::HEIGHT> tela(modeloTela);
 QRCodeGFX qrcode(tela);
+
+// --- Buffers de dados (declarados em estado_dados.h) ---
+Cliente clienteAtual   = {0, "", "", ""};
+bool    clienteCarregado = false;
+Partida partidas[20];
+uint8_t totalPartidas  = 0;
+bool    partidasProntas = false;
+Aposta  apostas[20];
+uint8_t totalApostas   = 0;
+bool    apostasProntas  = false;
+volatile bool precisaRedesenhar = false;
 
 // --- Botoes ---
 GFButton botao_up(1);
