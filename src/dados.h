@@ -4,6 +4,7 @@
 #include "globais.h"
 #include "estado_dados.h"
 #include "apostas.h"
+#include "preferencia.h"
 
 // ===========================================================================
 // CAMADA DE DADOS (repositorio)
@@ -109,14 +110,10 @@ void obterPedidos(JsonArray destino) {
 
 // Total da conta (soma dos pedidos).
 int obterTotalConta() {
-  // MOCK: idealmente vem somado do banco. Aqui somamos os pedidos mockados.
-  JsonDocument doc;
-  JsonArray pedidos = doc.to<JsonArray>();
-  obterPedidos(pedidos);
-  int total = 0;
-  for (JsonObject p : pedidos) {
-    total += p["preco"].as<int>();
-  }
+  int numeroMesa = getNumeroMesa();
+  String mesa = String(numeroMesa);
+  mqtt.publish("fecharConta/" + mesa, String(clienteAtual.id));
+  int total = 0; 
   return total;
 }
 

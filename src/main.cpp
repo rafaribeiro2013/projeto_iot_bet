@@ -8,6 +8,7 @@
 #include "dados.h"
 #include "desenhos.h"
 #include "navegacao.h"
+#include "preferencia.h"
 
 // --- Definicao dos objetos globais declarados como extern em globais.h ---
 U8G2_FOR_ADAFRUIT_GFX fontes;
@@ -38,12 +39,18 @@ GFButton botao_left(42);
 GFButton botao_right(41);
 GFButton botao_mid(40);
 
+// --- Preferences ---
+Preferences preferencias;
+
 // Controle de inatividade (volta para a tela inicial apos 1 min parado).
 unsigned long instanteAnterior = 0;
 
 void setup() {
   Serial.begin(115200);
   delay(500);
+
+  // inicializacao do preferences
+  initPreferences();
 
   // inicializacao da tela
   tela.init();

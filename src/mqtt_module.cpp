@@ -1,9 +1,13 @@
 #include "mqtt_module.h"
 #include "apostas.h"
+#include "preferencia.h"
+
+int numeroMesa;
 
 MQTTClient mqtt(1000);
 
 void mqttInit() {
+  numeroMesa = getNumeroMesa();
   mqtt.begin(MQTT_HOST, MQTT_PORT, conexaoSegura);
   mqtt.onMessage(mqttMensagemRecebida);
   mqtt.setKeepAlive(MQTT_KEEPALIVE);
@@ -22,6 +26,7 @@ void mqttReconectar() {
   }
   Serial.println(" conectado!");
 
+  mqtt.subscribe("fecharConta/" + String(numeroMesa) + "/total");
   mqtt.subscribe(TOPICO_DADOS_CLIENTE);
   mqtt.subscribe(TOPICO_PARTIDAS);
   mqtt.subscribe(TOPICO_MINHAS_APOSTAS);
