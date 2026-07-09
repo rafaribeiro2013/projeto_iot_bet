@@ -6,6 +6,7 @@ void cardapioInit() {
   mqtt.subscribe(TOPICO_CARDAPIO);
   mqtt.subscribe(TOPICO_MEUS_PEDIDOS);
   mqtt.subscribe(TOPICO_COPO);
+  mqtt.subscribe(TOPICO_TOTAL_CONTA);
   Serial.println("[Cardapio] Modulo inicializado.");
 }
 
@@ -106,9 +107,29 @@ static void _processarCopo(const String& conteudo) {
                 copoAtual.quantidadeMl, copoAtual.temperaturaC, copoAtual.status.c_str());
 }
 
+void getTotalConta(int32_t idCliente) {
+  totalContaProntas = false;
+  JsonDocument doc;
+  doc["id_cliente"] = idCliente;
+  String payload; serializeJson(doc, payload);
+  mqttPublicar(TOPICO_GET_TOTAL_CONTA, payload);
+  Serial.printf("[Cardapio] Solicitando total da conta do cliente %d\n", idCliente);
+}
+
+static void _processarTotalConta(const String& conteudo) {
+  JsonDocument doc;
+  if (deserializeJson(doc, conteudo)) { Serial.println("[Cardapio] Erro totalConta."); return; }
+  JsonObject o = doc[0];   // node-red-node-postgresql devolve array de linhas, mesmo p/ 1 linha
+  totalContaAtual = o["total"] | 0.0f;
+  totalContaProntas = true;
+  precisaRedesenhar = true;
+  Serial.printf("[Cardapio] Total da conta: %.2f\n", totalContaAtual);
+}
+
 bool cardapioProcessarMensagem(const String& topico, const String& conteudo) {
   if (topico == TOPICO_CARDAPIO)     { _processarCardapio(conteudo);     return true; }
   if (topico == TOPICO_MEUS_PEDIDOS) { _processarMeusPedidos(conteudo);  return true; }
   if (topico == TOPICO_COPO)         { _processarCopo(conteudo);        return true; }
+  if (topico == TOPICO_TOTAL_CONTA)  { _processarTotalConta(conteudo);  return true; }
   return false;
 }

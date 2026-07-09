@@ -39,6 +39,9 @@ bool       meusPedidosProntos = false;
 Copo copoAtual;
 bool copoProntos = false;
 
+float totalContaAtual = 0.0f;
+bool  totalContaProntas = false;
+
 String rfidAtual = "";
 
 void mqttMensagemRecebida(String topico, String conteudo) {

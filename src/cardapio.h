@@ -11,10 +11,13 @@
 #define TOPICO_MEUS_PEDIDOS     "bet/meusPedidos"
 #define TOPICO_GET_COPO         "bet/getCopo"
 #define TOPICO_COPO             "bet/copo"
+#define TOPICO_GET_TOTAL_CONTA  "bet/getTotalConta"
+#define TOPICO_TOTAL_CONTA      "bet/totalConta"
 
 void cardapioInit();
 void getCardapio(const char* categoria);
 void cardapioRegistrarPedido(int32_t idCliente, int32_t idProduto);
 void getMeusPedidos(int32_t idCliente);
 void getCopo(const String& rfid);
+void getTotalConta(int32_t idCliente);
 bool cardapioProcessarMensagem(const String& topico, const String& conteudo);

@@ -27,6 +27,9 @@ extern bool       meusPedidosProntos;
 extern Copo copoAtual;
 extern bool copoProntos;
 
+extern float totalContaAtual;
+extern bool  totalContaProntas;
+
 // UID do cartao lido na autenticacao, reaproveitado para consultar o copo do cliente.
 extern String rfidAtual;
 

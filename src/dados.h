@@ -4,7 +4,6 @@
 #include "globais.h"
 #include "estado_dados.h"
 #include "apostas.h"
-#include "preferencia.h"
 #include "cardapio.h"
 
 // ===========================================================================
@@ -90,17 +89,11 @@ void obterPedidos(JsonArray destino) {
   }
 }
 
-// Total da conta (soma dos pedidos + cerveja).
-// MOCK: fechamento de conta e responsabilidade de outro integrante do grupo.
-// Este stub (publica em fecharConta/{mesa} e sempre retorna 0) permanece ate
-// que essa parte seja implementada por quem cuida do fechamento — nao mexer
-// aqui alem de aguardar essa integracao futura.
+// Total da conta do cliente autenticado (consumo_comidas + consumo_bebidas - desconto),
+// lido do buffer preenchido pelo MQTT (getTotalConta). Usado tanto em Meus Pedidos
+// quanto em Pagar Conta.
 int obterTotalConta() {
-  int numeroMesa = getNumeroMesa();
-  String mesa = String(numeroMesa);
-  mqtt.publish("fecharConta/" + mesa, String(clienteAtual.id));
-  int total = 0; 
-  return total;
+  return (int)(totalContaAtual + 0.5f);
 }
 
 // Estado ao vivo do copo do cliente (tela de monitoramento da categoria Cervejas).

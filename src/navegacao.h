@@ -33,7 +33,8 @@ enum Direcao { CIMA, BAIXO, ESQUERDA, DIREITA };
 // Marca o que a tela CARREGANDO esta esperando (usado em estado.indice).
 enum EsperandoDado {
   ESPERANDO_CLIENTE, ESPERANDO_PARTIDAS, ESPERANDO_APOSTAS,
-  ESPERANDO_PRODUTOS, ESPERANDO_MEUS_PEDIDOS, ESPERANDO_COPO
+  ESPERANDO_PRODUTOS, ESPERANDO_MEUS_PEDIDOS, ESPERANDO_COPO,
+  ESPERANDO_PAGAR_CONTA
 };
 
 struct EstadoTela {
@@ -82,8 +83,10 @@ void renderizarTelaAtual() {
         estado.tipo = CONTROLE_CERVEJA; estado.indice = 0; renderizarTelaAtual();
       } else if (produtosProntos && estado.indice == ESPERANDO_PRODUTOS) {
         estado.tipo = LISTA_PRODUTOS; estado.indice = 0; renderizarTelaAtual();
-      } else if (meusPedidosProntos && estado.indice == ESPERANDO_MEUS_PEDIDOS) {
+      } else if (meusPedidosProntos && totalContaProntas && estado.indice == ESPERANDO_MEUS_PEDIDOS) {
         estado.tipo = MEUS_PEDIDOS; estado.indice = 0; renderizarTelaAtual();
+      } else if (totalContaProntas && estado.indice == ESPERANDO_PAGAR_CONTA) {
+        estado.tipo = PAGAR_CONTA; estado.indice = 0; renderizarTelaAtual();
       }
       break;
 
@@ -317,12 +320,17 @@ void selecionar() {
     case MENU_PEDIDOS:
       if (estado.indice == 0) {
         getMeusPedidos(clienteAtual.id);
+        getTotalConta(clienteAtual.id);
         strncpy(msgCarregando, "Buscando pedidos", sizeof(msgCarregando) - 1);
         empilhar();
         estado.tipo = CARREGANDO; estado.indice = ESPERANDO_MEUS_PEDIDOS;
         renderizarTelaAtual();
       } else {
-        irPara(PAGAR_CONTA);
+        getTotalConta(clienteAtual.id);
+        strncpy(msgCarregando, "Buscando total", sizeof(msgCarregando) - 1);
+        empilhar();
+        estado.tipo = CARREGANDO; estado.indice = ESPERANDO_PAGAR_CONTA;
+        renderizarTelaAtual();
       }
       break;
 

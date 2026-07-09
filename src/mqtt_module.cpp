@@ -27,13 +27,13 @@ void mqttReconectar() {
   }
   Serial.println(" conectado!");
 
-  mqtt.subscribe("fecharConta/" + String(numeroMesa) + "/total");
   mqtt.subscribe(TOPICO_DADOS_CLIENTE);
   mqtt.subscribe(TOPICO_PARTIDAS);
   mqtt.subscribe(TOPICO_MINHAS_APOSTAS);
   mqtt.subscribe(TOPICO_CARDAPIO);
   mqtt.subscribe(TOPICO_MEUS_PEDIDOS);
   mqtt.subscribe(TOPICO_COPO);
+  mqtt.subscribe(TOPICO_TOTAL_CONTA);
   Serial.println("[MQTT] Inscrito em: " TOPICO_DADOS_CLIENTE);
 }
 
