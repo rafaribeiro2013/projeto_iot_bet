@@ -4,6 +4,7 @@
 #include "globais.h"
 #include "estado_dados.h"
 #include "apostas.h"
+#include "cardapio.h"
 #include "dados.h"
 #include "desenhos.h"
 
@@ -28,6 +29,12 @@ enum Tela {
 
 // Direcoes do cursor
 enum Direcao { CIMA, BAIXO, ESQUERDA, DIREITA };
+
+// Marca o que a tela CARREGANDO esta esperando (usado em estado.indice).
+enum EsperandoDado {
+  ESPERANDO_CLIENTE, ESPERANDO_PARTIDAS, ESPERANDO_APOSTAS,
+  ESPERANDO_PRODUTOS, ESPERANDO_MEUS_PEDIDOS, ESPERANDO_COPO
+};
 
 struct EstadoTela {
   Tela tipo;
@@ -65,12 +72,14 @@ void renderizarTelaAtual() {
 
     case CARREGANDO:
       desenharCarregando(msgCarregando);
-      if (clienteCarregado && estado.indice == 0) {
+      if (clienteCarregado && estado.indice == ESPERANDO_CLIENTE) {
         estado.tipo = MENU; estado.indice = 0; desenharMenu(0);
-      } else if (partidasProntas && estado.indice == 1) {
+      } else if (partidasProntas && estado.indice == ESPERANDO_PARTIDAS) {
         estado.tipo = LISTA_JOGOS; estado.indice = 0; renderizarTelaAtual();
-      } else if (apostasProntas && estado.indice == 2) {
+      } else if (apostasProntas && estado.indice == ESPERANDO_APOSTAS) {
         estado.tipo = MINHAS_APOSTAS; estado.indice = 0; renderizarTelaAtual();
+      } else if (copoProntos && estado.indice == ESPERANDO_COPO) {
+        estado.tipo = CONTROLE_CERVEJA; estado.indice = 0; renderizarTelaAtual();
       }
       break;
 
@@ -118,9 +127,11 @@ void renderizarTelaAtual() {
     }
 
     case CONTROLE_CERVEJA: {
-      int gasto, copos, gratis;
-      obterConsumoCerveja(gasto, copos, gratis);
-      desenharControleCerveja(gasto, copos, gratis);
+      int quantidadeMl, nivelBateria;
+      float temperaturaC;
+      String status;
+      obterConsumoCerveja(quantidadeMl, temperaturaC, status, nivelBateria);
+      desenharControleCerveja(quantidadeMl, temperaturaC, status.c_str(), nivelBateria);
       break;
     }
 
@@ -216,7 +227,7 @@ void selecionar() {
         getPartidas();
         strncpy(msgCarregando, "Buscando jogos", sizeof(msgCarregando) - 1);
         empilhar();
-        estado.tipo = CARREGANDO; estado.indice = 1;
+        estado.tipo = CARREGANDO; estado.indice = ESPERANDO_PARTIDAS;
         renderizarTelaAtual();
       } else if (estado.indice == 2) {
         irPara(MENU_PEDIDOS);
@@ -224,14 +235,18 @@ void selecionar() {
         apostasConsultar(clienteAtual.id);
         strncpy(msgCarregando, "Buscando apostas", sizeof(msgCarregando) - 1);
         empilhar();
-        estado.tipo = CARREGANDO; estado.indice = 2;
+        estado.tipo = CARREGANDO; estado.indice = ESPERANDO_APOSTAS;
         renderizarTelaAtual();
       }
       break;
 
     case CARDAPIO:
       if (estado.indice == 0) {
-        irPara(CONTROLE_CERVEJA);          // Cervejas: monitoramento, sem produtos
+        getCopo(rfidAtual);
+        strncpy(msgCarregando, "Buscando copo", sizeof(msgCarregando) - 1);
+        empilhar();
+        estado.tipo = CARREGANDO; estado.indice = ESPERANDO_COPO;
+        renderizarTelaAtual();
       } else {
         const char* cat = (estado.indice == 1) ? "drinks"
                         : (estado.indice == 2) ? "petiscos"

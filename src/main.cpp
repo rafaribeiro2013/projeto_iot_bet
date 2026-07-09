@@ -110,7 +110,7 @@ void loop() {
     clienteCarregado = false;
     mqttPublicar(TOPICO_AUTENTICA_CLIENTE, uid);
     strncpy(msgCarregando, "Autenticando", sizeof(msgCarregando) - 1);
-    estado.tipo = CARREGANDO; estado.indice = 0;
+    estado.tipo = CARREGANDO; estado.indice = ESPERANDO_CLIENTE;
     renderizarTelaAtual();
   }
 

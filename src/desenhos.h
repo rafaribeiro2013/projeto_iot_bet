@@ -212,47 +212,41 @@ void desenharDetalheProduto(const char* titulo, const char* nome, int preco, con
   tela.display(true);
 }
 
-// Monitoramento de consumo de cerveja (categoria Cervejas).
-void desenharControleCerveja(int gastoCentavos, int copos, int cervejasGratis) {
+// Monitor ao vivo do copo do cliente (categoria Cervejas).
+void desenharControleCerveja(int quantidadeMl, float temperaturaC, const char* status, int nivelBateria) {
   tela.fillScreen(GxEPD_WHITE);
 
   fontes.setFont(u8g2_font_helvB12_te);
   fontes.setFontMode(1);
-  fontes.setCursor(110, 14);
-  fontes.print("Cervejas");
+  fontes.setCursor(105, 14);
+  fontes.print("Seu Copo");
   tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
 
-  fontes.setCursor(10, 33);
-  fontes.print("Consumo da mesa");
-  tela.drawLine(10, 38, 286, 38, GxEPD_BLACK);
-
-  char gasto[16];
-  snprintf(gasto, sizeof(gasto), "R$ %d,%02d", gastoCentavos / 100, gastoCentavos % 100);
+  char nivel[20];
+  snprintf(nivel, sizeof(nivel), "%d ml", quantidadeMl);
   fontes.setFont(u8g2_font_helvB24_te);
   fontes.setFontMode(1);
-  fontes.setCursor(88, 64);
-  fontes.print(gasto);
+  fontes.setCursor(centralizar(nivel, 16), 56);
+  fontes.print(nivel);
 
-  char coposTxt[24];
-  snprintf(coposTxt, sizeof(coposTxt), "%d copos consumidos", copos);
+  tela.drawLine(10, 66, 286, 66, GxEPD_BLACK);
+
+  char temp[20];
+  snprintf(temp, sizeof(temp), "Temp: %.1f C", temperaturaC);
   fontes.setFont(u8g2_font_helvB12_te);
   fontes.setFontMode(1);
-  fontes.setCursor(10, 80);
-  fontes.print(coposTxt);
+  fontes.setCursor(10, 84);
+  fontes.print(temp);
 
-  tela.drawLine(10, 88, 286, 88, GxEPD_BLACK);
+  char statusTxt[24];
+  snprintf(statusTxt, sizeof(statusTxt), "Status: %s", status);
+  fontes.setCursor(10, 102);
+  fontes.print(statusTxt);
 
-  fontes.setFont(u8g2_font_open_iconic_all_4x_t);
-  fontes.setFontMode(1);
-  fontes.setCursor(8, 121);
-  fontes.print("V");
-
-  char gratis[24];
-  snprintf(gratis, sizeof(gratis), "%d cervejas gratis!", cervejasGratis);
-  fontes.setFont(u8g2_font_helvB14_te);
-  fontes.setFontMode(1);
-  fontes.setCursor(48, 112);
-  fontes.print(gratis);
+  char bateria[20];
+  snprintf(bateria, sizeof(bateria), "Bateria: %d%%", nivelBateria);
+  fontes.setCursor(10, 120);
+  fontes.print(bateria);
 
   tela.display(true);
 }

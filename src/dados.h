@@ -117,12 +117,12 @@ int obterTotalConta() {
   return total;
 }
 
-// Consumo de cerveja da mesa (tela de monitoramento da categoria Cervejas).
-void obterConsumoCerveja(int& gastoCentavos, int& copos, int& cervejasGratis) {
-  // MOCK: substituir pelos dados do copo/choppeira inteligente vindos do banco.
-  gastoCentavos  = 4750;  // R$ 47,50
-  copos          = 12;
-  cervejasGratis = 2;
+// Estado ao vivo do copo do cliente (tela de monitoramento da categoria Cervejas).
+void obterConsumoCerveja(int& quantidadeMl, float& temperaturaC, String& status, int& nivelBateria) {
+  quantidadeMl  = copoAtual.quantidadeMl;
+  temperaturaC  = copoAtual.temperaturaC;
+  status        = copoAtual.status;
+  nivelBateria  = copoAtual.nivelBateria;
 }
 
 #endif
