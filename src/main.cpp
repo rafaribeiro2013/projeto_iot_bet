@@ -5,6 +5,7 @@
 #include "mqtt_module.h"
 #include "rfid_module.h"
 #include "apostas.h"
+#include "cardapio.h"
 #include "dados.h"
 #include "desenhos.h"
 #include "navegacao.h"
@@ -42,7 +43,9 @@ String rfidAtual = "";
 
 void mqttMensagemRecebida(String topico, String conteudo) {
   Serial.println("[MQTT] " + topico + ": " + conteudo);
-  apostasProcessarMensagem(topico, conteudo);
+  if (!apostasProcessarMensagem(topico, conteudo)) {
+    cardapioProcessarMensagem(topico, conteudo);
+  }
 }
 
 // --- Botoes ---
@@ -101,6 +104,7 @@ void loop() {
 
   if (rfidNovoCartao()) {
     String uid = rfidLerUID();
+    rfidAtual = uid;
     Serial.println("[Loop] Cartao UID: " + uid);
     clienteCarregado = false;
     mqttPublicar(TOPICO_AUTENTICA_CLIENTE, uid);
