@@ -2,6 +2,9 @@
 #include "estado_dados.h"
 #include <ArduinoJson.h>
 
+String payloadPixAtual = "";
+bool pixPronto = false;
+
 void cardapioInit() {
   mqtt.subscribe(TOPICO_CARDAPIO);
   mqtt.subscribe(TOPICO_MEUS_PEDIDOS);
