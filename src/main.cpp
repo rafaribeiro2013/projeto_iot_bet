@@ -93,6 +93,7 @@ void setup() {
   mqttInit();
   rfidInit();
   apostasInit();
+  cardapioInit();
 
   instanteAnterior = millis();
 }

@@ -12,6 +12,7 @@
 #define TOPICO_GET_COPO         "bet/getCopo"
 #define TOPICO_COPO             "bet/copo"
 
+void cardapioInit();
 void getCardapio(const char* categoria);
 void cardapioRegistrarPedido(int32_t idCliente, int32_t idProduto);
 void getMeusPedidos(int32_t idCliente);

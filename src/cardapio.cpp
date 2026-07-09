@@ -2,6 +2,13 @@
 #include "estado_dados.h"
 #include <ArduinoJson.h>
 
+void cardapioInit() {
+  mqtt.subscribe(TOPICO_CARDAPIO);
+  mqtt.subscribe(TOPICO_MEUS_PEDIDOS);
+  mqtt.subscribe(TOPICO_COPO);
+  Serial.println("[Cardapio] Modulo inicializado.");
+}
+
 void getCardapio(const char* categoria) {
   produtosProntos = false;
   JsonDocument doc;
