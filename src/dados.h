@@ -17,38 +17,21 @@
 // Procure por "MOCK:" para achar cada ponto de integracao com o banco.
 // ===========================================================================
 
-// Produtos de uma categoria do cardapio.
-// Cada item: { "nome": <string>, "preco": <int>, "descricao": <string> }
+// Produtos de uma categoria do cardapio — lidos do buffer preenchido pelo MQTT.
+// Cada item: { "id": <int>, "nome": <string>, "preco": <int>, "descricao": <string> }
 void obterProdutos(const char* categoria, JsonArray destino) {
-  // MOCK: substituir por consulta ao banco filtrando por 'categoria'.
-  if (strcmp(categoria, "drinks") == 0) {
-    JsonObject a = destino.add<JsonObject>();
-    a["nome"] = "Caipirinha";    a["preco"] = 18; a["descricao"] = "Limao, cachaca e acucar";
-    JsonObject b = destino.add<JsonObject>();
-    b["nome"] = "Mojito";        b["preco"] = 20; b["descricao"] = "Rum, hortela e limao";
-    JsonObject c = destino.add<JsonObject>();
-    c["nome"] = "Gin Tonica";    c["preco"] = 22; c["descricao"] = "Gin, agua tonica e limao";
-    JsonObject d = destino.add<JsonObject>();
-    d["nome"] = "Aperol Spritz"; d["preco"] = 24; d["descricao"] = "Aperol, espumante e soda";
-  } else if (strcmp(categoria, "petiscos") == 0) {
-    JsonObject a = destino.add<JsonObject>();
-    a["nome"] = "Batata Frita";  a["preco"] = 16; a["descricao"] = "Porcao crocante 300g";
-    JsonObject b = destino.add<JsonObject>();
-    b["nome"] = "Calabresa";     b["preco"] = 22; b["descricao"] = "Acebolada na cerveja";
-    JsonObject c = destino.add<JsonObject>();
-    c["nome"] = "Gurjao";        c["preco"] = 28; c["descricao"] = "Frango empanado 400g";
-    JsonObject d = destino.add<JsonObject>();
-    d["nome"] = "Hamburguer";    d["preco"] = 35; d["descricao"] = "Artesanal com fritas";
-  } else if (strcmp(categoria, "nao alcoolico") == 0) {
-    JsonObject a = destino.add<JsonObject>();
-    a["nome"] = "Suco de Laranja"; a["preco"] = 10; a["descricao"] = "Natural 400ml";
-    JsonObject b = destino.add<JsonObject>();
-    b["nome"] = "Refrigerante";    b["preco"] = 8;  b["descricao"] = "Lata 350ml";
-    JsonObject c = destino.add<JsonObject>();
-    c["nome"] = "Agua";            c["preco"] = 5;  c["descricao"] = "Com ou sem gas 500ml";
-    JsonObject d = destino.add<JsonObject>();
-    d["nome"] = "Limonada";        d["preco"] = 12; d["descricao"] = "Limonada suica cremosa";
+  for (uint8_t i = 0; i < totalProdutos; i++) {
+    JsonObject o = destino.add<JsonObject>();
+    o["id"]        = produtos[i].id;
+    o["nome"]      = produtos[i].nomeComida;
+    o["preco"]     = (int)(produtos[i].preco + 0.5f);
+    o["descricao"] = produtos[i].descricao;
   }
+}
+
+// Envia o pedido real via MQTT (id do cliente autenticado + id do produto).
+void registrarPedido(int32_t produtoId) {
+  cardapioRegistrarPedido(clienteAtual.id, produtoId);
 }
 
 // Jogos disponiveis para aposta.

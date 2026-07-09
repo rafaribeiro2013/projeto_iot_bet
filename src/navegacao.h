@@ -80,6 +80,8 @@ void renderizarTelaAtual() {
         estado.tipo = MINHAS_APOSTAS; estado.indice = 0; renderizarTelaAtual();
       } else if (copoProntos && estado.indice == ESPERANDO_COPO) {
         estado.tipo = CONTROLE_CERVEJA; estado.indice = 0; renderizarTelaAtual();
+      } else if (produtosProntos && estado.indice == ESPERANDO_PRODUTOS) {
+        estado.tipo = LISTA_PRODUTOS; estado.indice = 0; renderizarTelaAtual();
       }
       break;
 
@@ -105,9 +107,9 @@ void renderizarTelaAtual() {
       obterProdutos(estado.categoria, produtos);
       // titulo amigavel da categoria
       const char* titulo = "Cardapio";
-      if (strcmp(estado.categoria, "drinks") == 0)             titulo = "Drinks";
-      else if (strcmp(estado.categoria, "petiscos") == 0)      titulo = "Petiscos";
-      else if (strcmp(estado.categoria, "nao alcoolico") == 0) titulo = "Nao Alcoolico";
+      if (strcmp(estado.categoria, "Drinks") == 0)             titulo = "Drinks";
+      else if (strcmp(estado.categoria, "Petiscos") == 0)      titulo = "Petiscos";
+      else if (strcmp(estado.categoria, "Nao Alcoolico") == 0) titulo = "Nao Alcoolico";
       desenharListaProdutos(titulo, produtos, estado.indice);
       break;
     }
@@ -118,9 +120,9 @@ void renderizarTelaAtual() {
       obterProdutos(estado.categoria, produtos);
       JsonObject p = produtos[estado.indice];
       const char* titulo = "Cardapio";
-      if (strcmp(estado.categoria, "drinks") == 0)             titulo = "Drinks";
-      else if (strcmp(estado.categoria, "petiscos") == 0)      titulo = "Petiscos";
-      else if (strcmp(estado.categoria, "nao alcoolico") == 0) titulo = "Nao Alcoolico";
+      if (strcmp(estado.categoria, "Drinks") == 0)             titulo = "Drinks";
+      else if (strcmp(estado.categoria, "Petiscos") == 0)      titulo = "Petiscos";
+      else if (strcmp(estado.categoria, "Nao Alcoolico") == 0) titulo = "Nao Alcoolico";
       desenharDetalheProduto(titulo, p["nome"].as<const char*>(),
                              p["preco"].as<int>(), p["descricao"].as<const char*>());
       break;
@@ -248,14 +250,15 @@ void selecionar() {
         estado.tipo = CARREGANDO; estado.indice = ESPERANDO_COPO;
         renderizarTelaAtual();
       } else {
-        const char* cat = (estado.indice == 1) ? "drinks"
-                        : (estado.indice == 2) ? "petiscos"
-                        : "nao alcoolico";
-        empilhar();
-        estado.tipo = LISTA_PRODUTOS;
+        const char* cat = (estado.indice == 1) ? "Drinks"
+                        : (estado.indice == 2) ? "Petiscos"
+                        : "Nao Alcoolico";
         strncpy(estado.categoria, cat, sizeof(estado.categoria) - 1);
         estado.categoria[sizeof(estado.categoria) - 1] = '\0';
-        estado.indice = 0;
+        getCardapio(cat);
+        strncpy(msgCarregando, "Buscando cardapio", sizeof(msgCarregando) - 1);
+        empilhar();
+        estado.tipo = CARREGANDO; estado.indice = ESPERANDO_PRODUTOS;
         renderizarTelaAtual();
       }
       break;
@@ -267,11 +270,15 @@ void selecionar() {
       renderizarTelaAtual();
       break;
 
-    case DETALHE_PRODUTO:
-      // Botao PEDIR. MOCK: aqui entrara o registro do pedido no banco.
-      Serial.println("PEDIR (a integrar com o banco)");
+    case DETALHE_PRODUTO: {
+      JsonDocument doc;
+      JsonArray produtosJson = doc.to<JsonArray>();
+      obterProdutos(estado.categoria, produtosJson);
+      int32_t produtoId = produtosJson[estado.indice]["id"].as<int32_t>();
+      registrarPedido(produtoId);
       voltar();
       break;
+    }
 
     case LISTA_JOGOS:
       // entra no jogo selecionado; o cursor passa a ser o palpite (0..2)
