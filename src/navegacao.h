@@ -82,6 +82,8 @@ void renderizarTelaAtual() {
         estado.tipo = CONTROLE_CERVEJA; estado.indice = 0; renderizarTelaAtual();
       } else if (produtosProntos && estado.indice == ESPERANDO_PRODUTOS) {
         estado.tipo = LISTA_PRODUTOS; estado.indice = 0; renderizarTelaAtual();
+      } else if (meusPedidosProntos && estado.indice == ESPERANDO_MEUS_PEDIDOS) {
+        estado.tipo = MEUS_PEDIDOS; estado.indice = 0; renderizarTelaAtual();
       }
       break;
 
@@ -313,8 +315,15 @@ void selecionar() {
     }
 
     case MENU_PEDIDOS:
-      if (estado.indice == 0) irPara(MEUS_PEDIDOS);
-      else                    irPara(PAGAR_CONTA);
+      if (estado.indice == 0) {
+        getMeusPedidos(clienteAtual.id);
+        strncpy(msgCarregando, "Buscando pedidos", sizeof(msgCarregando) - 1);
+        empilhar();
+        estado.tipo = CARREGANDO; estado.indice = ESPERANDO_MEUS_PEDIDOS;
+        renderizarTelaAtual();
+      } else {
+        irPara(PAGAR_CONTA);
+      }
       break;
 
     // Telas apenas de visualizacao: o meio nao faz nada (volta-se segurando).

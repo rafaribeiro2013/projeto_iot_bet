@@ -79,19 +79,21 @@ void registrarAposta(int jogoId, int palpite) {
   apostasRealizar(a);
 }
 
-// Pedidos da mesa.
+// Pedidos do cliente autenticado — lidos do buffer preenchido pelo MQTT.
 // Cada item: { "nome": <string>, "preco": <int> }
 void obterPedidos(JsonArray destino) {
-  // MOCK: substituir pelos pedidos da mesa vindos do banco.
-  JsonObject a = destino.add<JsonObject>();
-  a["nome"] = "Caipirinha";   a["preco"] = 18;
-  JsonObject b = destino.add<JsonObject>();
-  b["nome"] = "Batata Frita"; b["preco"] = 16;
-  JsonObject c = destino.add<JsonObject>();
-  c["nome"] = "Mojito";       c["preco"] = 20;
+  for (uint8_t i = 0; i < totalMeusPedidos; i++) {
+    JsonObject o = destino.add<JsonObject>();
+    o["nome"]  = meusPedidos[i].nomeComida;
+    o["preco"] = (int)(meusPedidos[i].preco + 0.5f);
+  }
 }
 
-// Total da conta (soma dos pedidos).
+// Total da conta (soma dos pedidos + cerveja).
+// MOCK: fechamento de conta e responsabilidade de outro integrante do grupo.
+// Este stub (publica em fecharConta/{mesa} e sempre retorna 0) permanece ate
+// que essa parte seja implementada por quem cuida do fechamento — nao mexer
+// aqui alem de aguardar essa integracao futura.
 int obterTotalConta() {
   int numeroMesa = getNumeroMesa();
   String mesa = String(numeroMesa);
