@@ -5,6 +5,7 @@
 #include "estado_dados.h"
 #include "apostas.h"
 #include "preferencia.h"
+#include "cardapio.h"
 
 // ===========================================================================
 // CAMADA DE DADOS (repositorio)

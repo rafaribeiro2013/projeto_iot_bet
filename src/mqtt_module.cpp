@@ -1,6 +1,7 @@
 #include "mqtt_module.h"
 #include "apostas.h"
 #include "preferencia.h"
+#include "cardapio.h"
 
 int numeroMesa;
 
@@ -30,6 +31,9 @@ void mqttReconectar() {
   mqtt.subscribe(TOPICO_DADOS_CLIENTE);
   mqtt.subscribe(TOPICO_PARTIDAS);
   mqtt.subscribe(TOPICO_MINHAS_APOSTAS);
+  mqtt.subscribe(TOPICO_CARDAPIO);
+  mqtt.subscribe(TOPICO_MEUS_PEDIDOS);
+  mqtt.subscribe(TOPICO_COPO);
   Serial.println("[MQTT] Inscrito em: " TOPICO_DADOS_CLIENTE);
 }
 
