@@ -27,6 +27,19 @@ uint8_t totalApostas   = 0;
 bool    apostasProntas  = false;
 volatile bool precisaRedesenhar = false;
 
+Produto    produtos[20];
+uint8_t    totalProdutos = 0;
+bool       produtosProntos = false;
+
+PedidoItem meusPedidos[20];
+uint8_t    totalMeusPedidos = 0;
+bool       meusPedidosProntos = false;
+
+Copo copoAtual;
+bool copoProntos = false;
+
+String rfidAtual = "";
+
 void mqttMensagemRecebida(String topico, String conteudo) {
   Serial.println("[MQTT] " + topico + ": " + conteudo);
   apostasProcessarMensagem(topico, conteudo);

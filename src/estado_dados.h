@@ -16,6 +16,20 @@ extern Aposta  apostas[20];
 extern uint8_t totalApostas;
 extern bool    apostasProntas;
 
+extern Produto produtos[20];
+extern uint8_t totalProdutos;
+extern bool    produtosProntos;
+
+extern PedidoItem meusPedidos[20];
+extern uint8_t    totalMeusPedidos;
+extern bool       meusPedidosProntos;
+
+extern Copo copoAtual;
+extern bool copoProntos;
+
+// UID do cartao lido na autenticacao, reaproveitado para consultar o copo do cliente.
+extern String rfidAtual;
+
 // Ligada pelos callbacks quando chega dado novo; o loop() a observa e redesenha.
 extern volatile bool precisaRedesenhar;
 

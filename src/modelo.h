@@ -28,4 +28,32 @@ struct Aposta {
   int32_t idTimeApostado;   // TIME_EMPATE = empate
 };
 
+struct Produto {
+  int32_t id;
+  float   preco;
+  String  categoria;
+  String  nomeComida;
+  String  descricao;
+};
+
+struct PedidoItem {
+  int32_t id;
+  int32_t idProduto;
+  String  nomeComida;   // do JOIN feito no servidor (bet/meusPedidos)
+  float   preco;        // idem
+  String  status;
+};
+
+struct Copo {
+  int32_t id;
+  String  status;       // "em_uso" ou "disponivel"
+  int32_t idCopo;
+  String  rfid;
+  int32_t idCliente;
+  int     nivelBateria;
+  int     quantidadeMl;
+  float   temperaturaC;
+  int     mesa;
+};
+
 #endif
