@@ -34,7 +34,7 @@ enum Direcao { CIMA, BAIXO, ESQUERDA, DIREITA };
 enum EsperandoDado {
   ESPERANDO_CLIENTE, ESPERANDO_PARTIDAS, ESPERANDO_APOSTAS,
   ESPERANDO_PRODUTOS, ESPERANDO_MEUS_PEDIDOS, ESPERANDO_COPO,
-  ESPERANDO_PAGAR_CONTA
+  ESPERANDO_PAGAR_CONTA, ESPERANDO_PIX
 };
 
 struct EstadoTela {
@@ -86,6 +86,11 @@ void renderizarTelaAtual() {
       } else if (meusPedidosProntos && totalContaProntas && estado.indice == ESPERANDO_MEUS_PEDIDOS) {
         estado.tipo = MEUS_PEDIDOS; estado.indice = 0; renderizarTelaAtual();
       } else if (totalContaProntas && estado.indice == ESPERANDO_PAGAR_CONTA) {
+        solicitarPix(totalContaAtual);
+        totalContaProntas = false; 
+        strncpy(msgCarregando, "Gerando PIX", sizeof(msgCarregando) - 1);
+        estado.indice = ESPERANDO_PIX; renderizarTelaAtual();
+      } else if (pixPronto && estado.indice == ESPERANDO_PIX) {
         estado.tipo = PAGAR_CONTA; estado.indice = 0; renderizarTelaAtual();
       }
       break;

@@ -3,6 +3,8 @@
 
 #include "globais.h"
 
+extern String payloadPixAtual;
+
 // ===========================================================================
 // CAMADA DE DESENHO
 // ---------------------------------------------------------------------------
@@ -483,7 +485,7 @@ void desenharMeusPedidos(JsonArray pedidos, int total) {
 }
 
 // Tela de pagamento com QR Code Pix.
-void desenharPagarConta(int total) {
+void desenharPagarConta(float total) {
   tela.fillScreen(GxEPD_WHITE);
 
   fontes.setFont(u8g2_font_helvB12_te);
@@ -493,7 +495,7 @@ void desenharPagarConta(int total) {
   tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
 
   char totalTxt[24];
-  snprintf(totalTxt, sizeof(totalTxt), "Total: R$ %d,00", total);
+  snprintf(totalTxt, sizeof(totalTxt), "Total: R$ %.2f", total);
   fontes.setCursor(centralizar(totalTxt, 8), 31);
   fontes.print(totalTxt);
 
@@ -501,7 +503,7 @@ void desenharPagarConta(int total) {
 
   // MOCK: "https://google.com" sera o payload Pix (copia-e-cola) vindo do banco.
   qrcode.setScale(2);
-  qrcode.draw("https://google.com", 119, 42);
+  qrcode.draw(payloadPixAtual, 119, 42);
 
   fontes.setCursor(106, 120);
   fontes.print("Pague via Pix");

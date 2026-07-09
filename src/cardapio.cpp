@@ -7,6 +7,7 @@ void cardapioInit() {
   mqtt.subscribe(TOPICO_MEUS_PEDIDOS);
   mqtt.subscribe(TOPICO_COPO);
   mqtt.subscribe(TOPICO_TOTAL_CONTA);
+  mqtt.subscribe("codigoPix");
   Serial.println("[Cardapio] Modulo inicializado.");
 }
 
@@ -126,10 +127,24 @@ static void _processarTotalConta(const String& conteudo) {
   Serial.printf("[Cardapio] Total da conta: %.2f\n", totalContaAtual);
 }
 
+void solicitarPix(float valor) {
+  pixPronto = false;
+  mqttPublicar("conta", String(valor));
+  Serial.printf("[Cardapio] Solicitando PIX de R$ %.2f\n", valor);
+}
+
+static void _processarPix(const String& conteudo) {
+  payloadPixAtual = conteudo;
+  pixPronto = true;
+  precisaRedesenhar = true;
+  Serial.println("[Cardapio] Codigo PIX recebido com sucesso.");
+}
+
 bool cardapioProcessarMensagem(const String& topico, const String& conteudo) {
   if (topico == TOPICO_CARDAPIO)     { _processarCardapio(conteudo);     return true; }
   if (topico == TOPICO_MEUS_PEDIDOS) { _processarMeusPedidos(conteudo);  return true; }
   if (topico == TOPICO_COPO)         { _processarCopo(conteudo);        return true; }
   if (topico == TOPICO_TOTAL_CONTA)  { _processarTotalConta(conteudo);  return true; }
+  if (topico == "codigoPix")         { _processarPix(conteudo);          return true; }
   return false;
 }
