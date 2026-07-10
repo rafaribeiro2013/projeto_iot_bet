@@ -17,6 +17,8 @@ struct Partida {
   int32_t id;
   int32_t idTimeCasa;
   int32_t idTimeFora;
+  String nomeTimeCasa;
+  String nomeTimeFora;
   String  data;
 };
 
