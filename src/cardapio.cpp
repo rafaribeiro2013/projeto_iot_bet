@@ -1,5 +1,6 @@
 #include "cardapio.h"
 #include "estado_dados.h"
+#include "preferencia.h"
 #include <ArduinoJson.h>
 
 String payloadPixAtual = "";
@@ -18,6 +19,7 @@ void getCardapio(const char* categoria) {
   produtosProntos = false;
   JsonDocument doc;
   doc["categoria"] = categoria;
+  doc["mesa"] = getNumeroMesa();
   String payload; serializeJson(doc, payload);
   mqttPublicar(TOPICO_GET_CARDAPIO, payload);
   Serial.println("[Cardapio] Solicitando cardapio: " + payload);
@@ -48,6 +50,7 @@ void cardapioRegistrarPedido(int32_t idCliente, int32_t idProduto) {
   JsonDocument doc;
   doc["id_cliente"] = idCliente;
   doc["id_produto"] = idProduto;
+  doc["mesa"] = getNumeroMesa();
   String payload; serializeJson(doc, payload);
   mqttPublicar(TOPICO_REGISTRAR_PEDIDO, payload);
   Serial.println("[Cardapio] Pedido enviado: " + payload);
@@ -57,6 +60,7 @@ void getMeusPedidos(int32_t idCliente) {
   meusPedidosProntos = false;
   JsonDocument doc;
   doc["id_cliente"] = idCliente;
+  doc["mesa"] = getNumeroMesa();
   String payload; serializeJson(doc, payload);
   mqttPublicar(TOPICO_GET_MEUS_PEDIDOS, payload);
   Serial.printf("[Cardapio] Solicitando meus pedidos do cliente %d\n", idCliente);
@@ -87,6 +91,7 @@ void getCopo(const String& rfid) {
   copoProntos = false;
   JsonDocument doc;
   doc["rfid"] = rfid;
+  doc["mesa"] = getNumeroMesa();
   String payload; serializeJson(doc, payload);
   mqttPublicar(TOPICO_GET_COPO, payload);
   Serial.println("[Cardapio] Solicitando copo do rfid: " + rfid);
@@ -115,6 +120,7 @@ void getTotalConta(int32_t idCliente) {
   totalContaProntas = false;
   JsonDocument doc;
   doc["id_cliente"] = idCliente;
+  doc["mesa"] = getNumeroMesa();
   String payload; serializeJson(doc, payload);
   mqttPublicar(TOPICO_GET_TOTAL_CONTA, payload);
   Serial.printf("[Cardapio] Solicitando total da conta do cliente %d\n", idCliente);
@@ -132,8 +138,12 @@ static void _processarTotalConta(const String& conteudo) {
 
 void solicitarPix(float valor) {
   pixPronto = false;
-  mqttPublicar(TOPICO_SOLICITAR_PIX, String(valor));
-  Serial.printf("[Cardapio] Solicitando PIX de R$ %.2f\n", valor);
+  JsonDocument doc;
+  doc["valor"] = valor;
+  doc["mesa"] = getNumeroMesa();
+  String payload; serializeJson(doc, payload);
+  mqttPublicar(TOPICO_SOLICITAR_PIX, payload);
+  Serial.println("[Cardapio] Solicitando PIX: " + payload);
 }
 
 static void _processarPix(const String& conteudo) {
@@ -148,6 +158,7 @@ static void _processarPix(const String& conteudo) {
 void liberarCopo(int32_t idCliente) {
   JsonDocument doc;
   doc["id_cliente"] = idCliente;
+  doc["mesa"] = getNumeroMesa();
   String payload; serializeJson(doc, payload);
   mqttPublicar(TOPICO_LIBERAR_COPO, payload);
   Serial.println("[Cardapio] Liberando copo: " + payload);

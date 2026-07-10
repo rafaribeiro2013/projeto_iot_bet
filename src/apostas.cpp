@@ -1,5 +1,6 @@
 #include "apostas.h"
 #include "estado_dados.h"
+#include "preferencia.h"
 #include <ArduinoJson.h>
 
 void apostasInit() {
@@ -24,8 +25,11 @@ static void _processarDadosCliente(const String& conteudo) {
 
 void getPartidas() {
   partidasProntas = false;
-  mqttPublicar(TOPICO_GET_PARTIDAS, "");
-  Serial.println("[Apostas] Solicitando partidas...");
+  JsonDocument doc;
+  doc["mesa"] = getNumeroMesa();
+  String payload; serializeJson(doc, payload);
+  mqttPublicar(TOPICO_GET_PARTIDAS, payload);
+  Serial.println("[Apostas] Solicitando partidas: " + payload);
 }
 
 static void _processarPartidas(const String& conteudo) {
@@ -54,6 +58,7 @@ void apostasRealizar(const Aposta& aposta) {
   doc["id_partida"] = aposta.idPartida;
   if (aposta.idTimeApostado == TIME_EMPATE) doc["id_time_apostado"] = nullptr;
   else                                      doc["id_time_apostado"] = aposta.idTimeApostado;
+  doc["mesa"] = getNumeroMesa();
   String payload; serializeJson(doc, payload);
   mqttPublicar(TOPICO_REALIZAR_APOSTA, payload);
   Serial.println("[Apostas] Aposta enviada: " + payload);
@@ -63,6 +68,7 @@ void apostasConsultar(int32_t idCliente) {
   apostasProntas = false;
   JsonDocument doc;
   doc["id_cliente"] = idCliente;
+  doc["mesa"] = getNumeroMesa();
   String payload; serializeJson(doc, payload);
   mqttPublicar(TOPICO_CONSULTAR_APOSTA, payload);
   Serial.printf("[Apostas] Consultando apostas do cliente %d\n", idCliente);

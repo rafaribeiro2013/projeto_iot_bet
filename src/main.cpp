@@ -53,10 +53,10 @@ void mqttMensagemRecebida(String topico, String conteudo) {
 
 // --- Botoes ---
 GFButton botao_up(1);
-GFButton botao_down(2);
-GFButton botao_left(42);
-GFButton botao_right(41);
-GFButton botao_mid(40);
+GFButton botao_down(42);
+GFButton botao_left(41);
+GFButton botao_right(40);
+GFButton botao_mid(2);
 
 // --- Preferences ---
 Preferences preferencias;
@@ -111,13 +111,14 @@ void loop() {
     rfidAtual = uid;
     Serial.println("[Loop] Cartao UID: " + uid);
     clienteCarregado = false;
-    Serial.println("[Diag] 1) publicando autenticacao...");
-    mqttPublicar(TOPICO_AUTENTICA_CLIENTE, uid);
-    Serial.println("[Diag] 2) publicado; vou desenhar Carregando...");
+    JsonDocument docAuth;
+    docAuth["rfid"] = uid;
+    docAuth["mesa"] = getNumeroMesa();
+    String payloadAuth; serializeJson(docAuth, payloadAuth);
+    mqttPublicar(TOPICO_AUTENTICA_CLIENTE, payloadAuth);
     strncpy(msgCarregando, "Autenticando", sizeof(msgCarregando) - 1);
     estado.tipo = CARREGANDO; estado.indice = ESPERANDO_CLIENTE;
     renderizarTelaAtual();
-    Serial.println("[Diag] 3) Carregando desenhado; aguardando dadosCliente.");
   }
 
   botao_mid.process();
