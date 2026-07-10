@@ -470,7 +470,7 @@
         "type": "postgresql",
         "z": "7bc5b28782596e46",
         "name": "",
-        "query": "SELECT clientes.*\nFROM copos\nJOIN clientes ON clientes.id = copos.id_cliente\nWHERE copos.rfid = $rfid;",
+        "query": "SELECT clientes.*\nFROM copos\nJOIN vinculo_copo_cliente v ON v.id_copo = copos.id AND v.ativo = true\nJOIN clientes ON clientes.id = v.id_cliente\nWHERE copos.rfid = $rfid;",
         "postgreSQLConfig": "1251550e75985b59",
         "split": false,
         "rowsPerMsg": 1,

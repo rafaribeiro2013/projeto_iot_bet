@@ -89,6 +89,7 @@ static void _processarMinhasApostas(const String& conteudo) {
     apostas[i].idCliente      = o["id_cliente"]       | 0;
     apostas[i].idPartida      = o["id_partida"]       | 0;
     apostas[i].idTimeApostado = o["id_time_apostado"] | TIME_EMPATE;
+    apostas[i].nomeTimeApostado = String((const char*)(o["nome_time_apostado"] | "Empate"));
     i++;
   }
   totalApostas  = total;

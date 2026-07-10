@@ -50,10 +50,10 @@ void obterJogos(JsonArray destino) {
 void obterApostas(JsonArray destino) {
   for (uint8_t i = 0; i < totalApostas; i++) {
     JsonObject o = destino.add<JsonObject>();
-    char jogo[16], palpite[16];
+    char jogo[16], palpite[24];
     snprintf(jogo, sizeof(jogo), "Partida %d", apostas[i].idPartida);
     if (apostas[i].idTimeApostado == TIME_EMPATE) snprintf(palpite, sizeof(palpite), "Empate");
-    else snprintf(palpite, sizeof(palpite), "Time %d", apostas[i].idTimeApostado);
+    else snprintf(palpite, sizeof(palpite), "%s", apostas[i].nomeTimeApostado.c_str());
     o["jogo"]    = jogo;
     o["palpite"] = palpite;
     o["status"]  = "Pendente";

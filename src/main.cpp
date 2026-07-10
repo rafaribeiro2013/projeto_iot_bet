@@ -18,7 +18,7 @@ GxEPD2_BW<GxEPD2_290_T94_V2, GxEPD2_290_T94_V2::HEIGHT> tela(modeloTela);
 QRCodeGFX qrcode(tela);
 
 // --- Buffers de dados (declarados em estado_dados.h) ---
-Cliente clienteAtual   = {0, "", "", ""};
+Cliente clienteAtual   = {99, "", "", ""};
 bool    clienteCarregado = false;
 Partida partidas[20];
 uint8_t totalPartidas  = 0;

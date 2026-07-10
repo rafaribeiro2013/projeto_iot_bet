@@ -28,6 +28,7 @@ struct Aposta {
   int32_t idCliente;
   int32_t idPartida;
   int32_t idTimeApostado;   // TIME_EMPATE = empate
+  String nomeTimeApostado;
 };
 
 struct Produto {
