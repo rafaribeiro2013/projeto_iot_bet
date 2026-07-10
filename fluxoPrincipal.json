@@ -311,7 +311,7 @@
               "t": "move",
               "p": "payload",
               "pt": "msg",
-              "to": "queryParameters.id",
+              "to": "queryParameters",
               "tot": "msg"
           }
       ],
@@ -447,7 +447,7 @@
               "t": "move",
               "p": "payload",
               "pt": "msg",
-              "to": "queryParameters.id",
+              "to": "queryParameters",
               "tot": "msg"
           }
       ],
@@ -470,7 +470,7 @@
       "type": "postgresql",
       "z": "8c214f44c56ecffc",
       "name": "",
-      "query": "SELECT clientes.*\nFROM copos\nJOIN clientes ON clientes.id = copos.id_cliente\nWHERE copos.rfid = $id;",
+      "query": "SELECT clientes.*\nFROM copos\nJOIN clientes ON clientes.id = copos.id_cliente\nWHERE copos.rfid = $rfid;",
       "postgreSQLConfig": "1251550e75985b59",
       "split": false,
       "rowsPerMsg": 1,
