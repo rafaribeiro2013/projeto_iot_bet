@@ -111,10 +111,13 @@ void loop() {
     rfidAtual = uid;
     Serial.println("[Loop] Cartao UID: " + uid);
     clienteCarregado = false;
+    Serial.println("[Diag] 1) publicando autenticacao...");
     mqttPublicar(TOPICO_AUTENTICA_CLIENTE, uid);
+    Serial.println("[Diag] 2) publicado; vou desenhar Carregando...");
     strncpy(msgCarregando, "Autenticando", sizeof(msgCarregando) - 1);
     estado.tipo = CARREGANDO; estado.indice = ESPERANDO_CLIENTE;
     renderizarTelaAtual();
+    Serial.println("[Diag] 3) Carregando desenhado; aguardando dadosCliente.");
   }
 
   botao_mid.process();
