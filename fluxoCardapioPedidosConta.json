@@ -163,7 +163,7 @@
       "type": "postgresql",
       "z": "c1a0000000000000",
       "name": "",
-      "query": "INSERT INTO consumo_comidas (id_comida, id_copo)\nVALUES (\n  $id_produto,\n  (SELECT id_copo FROM copos WHERE id_cliente = $id_cliente ORDER BY created_at DESC LIMIT 1)\n);",
+      "query": "INSERT INTO consumo_comidas (id_comida, id_copo)\nVALUES (\n  $id_produto,\n  (SELECT id FROM copos WHERE id_cliente = $id_cliente ORDER BY created_at DESC LIMIT 1)\n);",
       "postgreSQLConfig": "1251550e75985b59",
       "split": false,
       "rowsPerMsg": 1,
@@ -247,7 +247,7 @@
       "type": "postgresql",
       "z": "c1a0000000000000",
       "name": "",
-      "query": "SELECT consumo_comidas.id, consumo_comidas.created_at,\n       consumo_comidas.id_comida AS id_produto,\n       cardapio.nome_comida, cardapio.preco\nFROM consumo_comidas\nJOIN cardapio ON cardapio.id = consumo_comidas.id_comida\nJOIN copos    ON copos.id_copo = consumo_comidas.id_copo\nWHERE copos.id_cliente = $id_cliente\nORDER BY consumo_comidas.created_at DESC;",
+      "query": "SELECT consumo_comidas.id, consumo_comidas.created_at,\n       consumo_comidas.id_comida AS id_produto,\n       cardapio.nome_comida, cardapio.preco\nFROM consumo_comidas\nJOIN cardapio ON cardapio.id = consumo_comidas.id_comida\nJOIN copos    ON copos.id = consumo_comidas.id_copo\nWHERE copos.id_cliente = $id_cliente\nORDER BY consumo_comidas.created_at DESC;",
       "postgreSQLConfig": "1251550e75985b59",
       "split": false,
       "rowsPerMsg": 1,
@@ -453,7 +453,7 @@
       "type": "postgresql",
       "z": "c1a0000000000000",
       "name": "",
-      "query": "SELECT\n  COALESCE((\n    SELECT SUM(cardapio.preco)\n    FROM consumo_comidas\n    JOIN cardapio ON cardapio.id = consumo_comidas.id_comida\n    JOIN copos    ON copos.id_copo = consumo_comidas.id_copo\n    WHERE copos.id_cliente = $id_cliente\n  ), 0)\n  +\n  COALESCE((\n    SELECT SUM(cb.valor_real - cb.desconto)\n    FROM consumo_bebidas cb\n    JOIN vinculo_copo_cliente v ON v.id = cb.vinculo_copo_cliente\n    WHERE v.id_cliente = $id_cliente\n  ), 0)\n  AS total;",
+      "query": "SELECT\n  COALESCE((\n    SELECT SUM(cardapio.preco)\n    FROM consumo_comidas\n    JOIN cardapio ON cardapio.id = consumo_comidas.id_comida\n    JOIN copos    ON copos.id = consumo_comidas.id_copo\n    WHERE copos.id_cliente = $id_cliente\n  ), 0)\n  +\n  COALESCE((\n    SELECT SUM(cb.valor_real - cb.desconto)\n    FROM consumo_bebidas cb\n    JOIN vinculo_copo_cliente v ON v.id = cb.vinculo_copo_cliente\n    WHERE v.id_cliente = $id_cliente\n  ), 0)\n  AS total;",
       "postgreSQLConfig": "1251550e75985b59",
       "split": false,
       "rowsPerMsg": 1,
@@ -555,14 +555,32 @@
       "id": "c1a0000000000052",
       "type": "postgresql",
       "z": "c1a0000000000000",
-      "name": "",
-      "query": "WITH copo_liberado AS (\n  UPDATE copos\n  SET id_cliente = NULL, status = 'disponivel'\n  WHERE id_cliente = $id_cliente\n  RETURNING id_copo\n)\nUPDATE vinculo_copo_cliente\nSET ativo = false\nWHERE id_cliente = $id_cliente AND ativo = true;",
+      "name": "1) libera o copo",
+      "query": "UPDATE copos\nSET id_cliente = NULL, status = 'disponivel'\nWHERE id_cliente = $id_cliente;",
       "postgreSQLConfig": "1251550e75985b59",
       "split": false,
       "rowsPerMsg": 1,
       "outputs": 1,
       "x": 870,
       "y": 1560,
+      "wires": [
+          [
+              "c1a0000000000054"
+          ]
+      ]
+  },
+  {
+      "id": "c1a0000000000054",
+      "type": "postgresql",
+      "z": "c1a0000000000000",
+      "name": "2) desativa o vinculo",
+      "query": "UPDATE vinculo_copo_cliente\nSET ativo = false\nWHERE id_cliente = $id_cliente AND ativo = true;",
+      "postgreSQLConfig": "1251550e75985b59",
+      "split": false,
+      "rowsPerMsg": 1,
+      "outputs": 1,
+      "x": 1000,
+      "y": 1620,
       "wires": [
           [
               "c1a0000000000053"
