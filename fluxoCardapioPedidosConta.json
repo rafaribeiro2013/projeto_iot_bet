@@ -453,7 +453,7 @@
       "type": "postgresql",
       "z": "c1a0000000000000",
       "name": "",
-      "query": "SELECT\n  COALESCE((\n    SELECT SUM(cardapio.preco)\n    FROM consumo_comidas\n    JOIN cardapio ON cardapio.id = consumo_comidas.id_comida\n    JOIN vinculo_copo_cliente v ON v.id_copo = consumo_comidas.id_copo\n    WHERE v.id_cliente = $id_cliente\n  ), 0)\n  +\n  COALESCE((\n    SELECT SUM(cb.valor_real - cb.desconto)\n    FROM consumo_bebidas cb\n    JOIN vinculo_copo_cliente v ON v.id = cb.vinculo_copo_cliente\n    WHERE v.id_cliente = $id_cliente\n  ), 0)\n  AS total;",
+      "query": "SELECT\n  COALESCE((\n    SELECT SUM(cardapio.preco)\n    FROM consumo_comidas\n    JOIN cardapio ON cardapio.id = consumo_comidas.id_comida\n    JOIN vinculo_copo_cliente v ON v.id_copo = consumo_comidas.id_copo\n    WHERE v.id_cliente = $id_cliente AND v.ativo = true\n  ), 0)\n  +\n  COALESCE((\n    SELECT SUM(cb.valor_real - cb.desconto)\n    FROM consumo_bebidas cb\n    JOIN vinculo_copo_cliente v ON v.id = cb.vinculo_copo_cliente\n    WHERE v.id_cliente = $id_cliente AND v.ativo = true\n  ), 0)\n  AS total;",
       "postgreSQLConfig": "1251550e75985b59",
       "split": false,
       "rowsPerMsg": 1,
