@@ -4,22 +4,34 @@ WiFiClientSecure conexaoSegura;
 
 void wifiInit() {
   WiFi.mode(WIFI_STA);
-  wifiReconectar();
   conexaoSegura.setCACert(certificado1);
-  Serial.println("[WiFi] Certificado TLS configurado.");
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.println("[WiFi] Conexao iniciada (nao-bloqueante).");
 }
 
+// NAO-BLOQUEANTE: nunca trava o loop. Tenta reconectar no maximo a cada 5s.
+// O laco while(...) bloqueante anterior congelava toda a navegacao quando a
+// rede caia (tela em branco + botoes mortos).
 void wifiReconectar() {
-  if (WiFi.status() == WL_CONNECTED) return;
+  static unsigned long ultimaTentativa = 0;
+  static bool estavaConectado = false;
 
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  Serial.print("[WiFi] Conectando");
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print(".");
-    delay(1000);
+  if (WiFi.status() == WL_CONNECTED) {
+    if (!estavaConectado) {
+      estavaConectado = true;
+      Serial.print("[WiFi] Conectado! IP: ");
+      Serial.println(WiFi.localIP());
+    }
+    return;
   }
-  Serial.print(" conectado! IP: ");
-  Serial.println(WiFi.localIP());
+
+  estavaConectado = false;
+  unsigned long agora = millis();
+  if (agora - ultimaTentativa >= 5000) {
+    ultimaTentativa = agora;
+    Serial.println("[WiFi] Sem conexao, tentando reconectar...");
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  }
 }
 
 bool wifiConectado() {
