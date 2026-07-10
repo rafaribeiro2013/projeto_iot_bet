@@ -39,12 +39,9 @@ void registrarPedido(int32_t produtoId) {
 void obterJogos(JsonArray destino) {
   for (uint8_t i = 0; i < totalPartidas; i++) {
     JsonObject o = destino.add<JsonObject>();
-    o["id"] = partidas[i].id;
-    char casa[12], fora[12];
-    snprintf(casa, sizeof(casa), "Time %d", partidas[i].idTimeCasa);
-    snprintf(fora, sizeof(fora), "Time %d", partidas[i].idTimeFora);
-    o["casa"] = casa;
-    o["fora"] = fora;
+    o["id"]   = partidas[i].id;
+    o["casa"] = partidas[i].nomeTimeCasa;
+    o["fora"] = partidas[i].nomeTimeFora;
   }
 }
 

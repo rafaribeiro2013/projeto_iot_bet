@@ -43,6 +43,8 @@ static void _processarPartidas(const String& conteudo) {
     partidas[i].id         = p["id"]        | 0;
     partidas[i].idTimeCasa = p["mandante"]  | 0;
     partidas[i].idTimeFora = p["visitante"] | 0;
+    partidas[i].nomeTimeCasa = String((const char*)(p["mandante_nome"]  | ""));
+    partidas[i].nomeTimeFora = String((const char*)(p["visitante_nome"] | ""));
     partidas[i].data       = String((const char*)(p["data"] | ""));
     i++;
   }
