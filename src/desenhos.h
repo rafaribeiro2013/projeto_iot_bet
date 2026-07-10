@@ -501,9 +501,21 @@ void desenharPagarConta(float total) {
 
   tela.drawLine(10, 38, 286, 38, GxEPD_BLACK);
 
-  // MOCK: "https://google.com" sera o payload Pix (copia-e-cola) vindo do banco.
-  qrcode.setScale(2);
-  qrcode.draw(payloadPixAtual, 119, 42);
+  // Escala dinamica: um payload Pix (copia-e-cola) tem muito mais caracteres
+  // que uma URL comum, gerando uma versao de QR com mais modulos. Com escala
+  // fixa, mais modulos = QR maior na tela (e ate cortado). Calculamos a
+  // escala certa para caber no espaco disponivel (y=42 ate antes do texto
+  // de baixo, y=120), medindo o QR a escala 1 antes de desenhar de verdade.
+  const int ladoMaximo = 64;
+  qrcode.setScale(1);
+  qrcode.generateData(payloadPixAtual);
+  int16_t ladoBase = qrcode.getSideLength();
+  int escala = (ladoBase > 0) ? (ladoMaximo / ladoBase) : 1;
+  if (escala < 1) escala = 1;
+  qrcode.setScale(escala);
+  int16_t ladoFinal = qrcode.getSideLength();
+  int qrX = (296 - ladoFinal) / 2;
+  qrcode.draw(qrX, 42, true);
 
   fontes.setCursor(66, 120);
   fontes.print("Pago? Aperte OK");
