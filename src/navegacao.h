@@ -192,7 +192,7 @@ void renderizarTelaAtual() {
     }
 
     case PAGAR_CONTA:
-      desenharPagarConta(obterTotalConta());
+      desenharPagarConta(totalContaAtual);
       break;
 
     case MINHAS_APOSTAS: {
@@ -339,11 +339,21 @@ void selecionar() {
       }
       break;
 
+    case PAGAR_CONTA:
+      // Confirma que o cliente pagou: libera o copo (desvincula do cliente)
+      // e encerra a sessao, voltando para a tela de espera do cartao.
+      liberarCopo(clienteAtual.id);
+      pilhaTopo = 0;
+      clienteCarregado = false;
+      estado.tipo = AGUARDANDO_CARTAO;
+      estado.indice = 0;
+      renderizarTelaAtual();
+      break;
+
     // Telas apenas de visualizacao: o meio nao faz nada (volta-se segurando).
     case CONTROLE_CERVEJA:
     case CONFIRMADO:
     case MEUS_PEDIDOS:
-    case PAGAR_CONTA:
     case MINHAS_APOSTAS:
     default:
       break;

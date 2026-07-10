@@ -10,7 +10,7 @@ void cardapioInit() {
   mqtt.subscribe(TOPICO_MEUS_PEDIDOS);
   mqtt.subscribe(TOPICO_COPO);
   mqtt.subscribe(TOPICO_TOTAL_CONTA);
-  mqtt.subscribe("codigoPix");
+  mqtt.subscribe(TOPICO_CODIGO_PIX);
   Serial.println("[Cardapio] Modulo inicializado.");
 }
 
@@ -132,7 +132,7 @@ static void _processarTotalConta(const String& conteudo) {
 
 void solicitarPix(float valor) {
   pixPronto = false;
-  mqttPublicar("conta", String(valor));
+  mqttPublicar(TOPICO_SOLICITAR_PIX, String(valor));
   Serial.printf("[Cardapio] Solicitando PIX de R$ %.2f\n", valor);
 }
 
@@ -143,11 +143,21 @@ static void _processarPix(const String& conteudo) {
   Serial.println("[Cardapio] Codigo PIX recebido com sucesso.");
 }
 
+// Avisa o servidor que o cliente terminou (pagou) para desvincular o copo.
+// Fire-and-forget: sem tela de espera, sem resposta.
+void liberarCopo(int32_t idCliente) {
+  JsonDocument doc;
+  doc["id_cliente"] = idCliente;
+  String payload; serializeJson(doc, payload);
+  mqttPublicar(TOPICO_LIBERAR_COPO, payload);
+  Serial.println("[Cardapio] Liberando copo: " + payload);
+}
+
 bool cardapioProcessarMensagem(const String& topico, const String& conteudo) {
   if (topico == TOPICO_CARDAPIO)     { _processarCardapio(conteudo);     return true; }
   if (topico == TOPICO_MEUS_PEDIDOS) { _processarMeusPedidos(conteudo);  return true; }
   if (topico == TOPICO_COPO)         { _processarCopo(conteudo);        return true; }
   if (topico == TOPICO_TOTAL_CONTA)  { _processarTotalConta(conteudo);  return true; }
-  if (topico == "codigoPix")         { _processarPix(conteudo);          return true; }
+  if (topico == TOPICO_CODIGO_PIX)   { _processarPix(conteudo);         return true; }
   return false;
 }

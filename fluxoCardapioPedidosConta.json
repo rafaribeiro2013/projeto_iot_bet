@@ -501,5 +501,89 @@
       "x": 1160,
       "y": 1280,
       "wires": []
+  },
+
+  {
+      "id": "c1a0000000000050",
+      "type": "mqtt in",
+      "z": "c1a0000000000000",
+      "name": "",
+      "topic": "bet/liberarCopo",
+      "qos": "2",
+      "datatype": "auto-detect",
+      "broker": "fa7923ade7c363e8",
+      "nl": false,
+      "rap": true,
+      "rh": 0,
+      "inputs": 0,
+      "x": 210,
+      "y": 1560,
+      "wires": [
+          [
+              "c1a0000000000051"
+          ]
+      ]
+  },
+  {
+      "id": "c1a0000000000051",
+      "type": "change",
+      "z": "c1a0000000000000",
+      "name": "",
+      "rules": [
+          {
+              "t": "move",
+              "p": "payload",
+              "pt": "msg",
+              "to": "queryParameters",
+              "tot": "msg"
+          }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 530,
+      "y": 1560,
+      "wires": [
+          [
+              "c1a0000000000052"
+          ]
+      ]
+  },
+  {
+      "id": "c1a0000000000052",
+      "type": "postgresql",
+      "z": "c1a0000000000000",
+      "name": "",
+      "query": "WITH copo_liberado AS (\n  UPDATE copos\n  SET id_cliente = NULL, status = 'disponivel'\n  WHERE id_cliente = $id_cliente\n  RETURNING id_copo\n)\nUPDATE vinculo_copo_cliente\nSET ativo = false\nWHERE id_cliente = $id_cliente AND ativo = true;",
+      "postgreSQLConfig": "1251550e75985b59",
+      "split": false,
+      "rowsPerMsg": 1,
+      "outputs": 1,
+      "x": 870,
+      "y": 1560,
+      "wires": [
+          [
+              "c1a0000000000053"
+          ]
+      ]
+  },
+  {
+      "id": "c1a0000000000053",
+      "type": "debug",
+      "z": "c1a0000000000000",
+      "name": "debug liberarCopo",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 1130,
+      "y": 1560,
+      "wires": []
   }
 ]

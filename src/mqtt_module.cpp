@@ -34,6 +34,7 @@ void mqttReconectar() {
   mqtt.subscribe(TOPICO_MEUS_PEDIDOS);
   mqtt.subscribe(TOPICO_COPO);
   mqtt.subscribe(TOPICO_TOTAL_CONTA);
+  mqtt.subscribe(TOPICO_CODIGO_PIX);
   Serial.println("[MQTT] Inscrito em: " TOPICO_DADOS_CLIENTE);
 }
 

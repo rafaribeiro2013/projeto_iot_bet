@@ -505,8 +505,8 @@ void desenharPagarConta(float total) {
   qrcode.setScale(2);
   qrcode.draw(payloadPixAtual, 119, 42);
 
-  fontes.setCursor(106, 120);
-  fontes.print("Pague via Pix");
+  fontes.setCursor(66, 120);
+  fontes.print("Pago? Aperte OK");
 
   tela.display(true);
 }

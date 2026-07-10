@@ -13,6 +13,9 @@
 #define TOPICO_COPO             "bet/copo"
 #define TOPICO_GET_TOTAL_CONTA  "bet/getTotalConta"
 #define TOPICO_TOTAL_CONTA      "bet/totalConta"
+#define TOPICO_SOLICITAR_PIX    "conta"
+#define TOPICO_CODIGO_PIX       "codigoPix"
+#define TOPICO_LIBERAR_COPO     "bet/liberarCopo"
 
 extern String payloadPixAtual;
 extern bool pixPronto;
@@ -24,4 +27,5 @@ void getMeusPedidos(int32_t idCliente);
 void getCopo(const String& rfid);
 void getTotalConta(int32_t idCliente);
 void solicitarPix(float valor);
+void liberarCopo(int32_t idCliente);
 bool cardapioProcessarMensagem(const String& topico, const String& conteudo);
