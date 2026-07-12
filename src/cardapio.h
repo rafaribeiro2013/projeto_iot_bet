@@ -15,10 +15,12 @@
 #define TOPICO_TOTAL_CONTA      "bet/totalConta"
 #define TOPICO_SOLICITAR_PIX    "conta"
 #define TOPICO_CODIGO_PIX       "codigoPix"
+#define TOPICO_LIBERA_PIX       "liberaPix/3"
 #define TOPICO_LIBERAR_COPO     "bet/liberarCopo"
 
 extern String payloadPixAtual;
 extern bool pixPronto;
+extern bool pagamentoConfirmado;
 
 void cardapioInit();
 void getCardapio(const char* categoria);

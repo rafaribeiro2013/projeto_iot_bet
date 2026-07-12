@@ -15,15 +15,16 @@ extern String payloadPixAtual;
 
 // Estima um X para centralizar o texto, sem usar getUTF8Width (restrito).
 // larguraChar e a largura media aproximada de um caractere na fonte usada.
-int centralizar(const char* txt, int larguraChar) {
-  int x = (296 - (int) strlen(txt) * larguraChar) / 2;
+int centralizar(const char *txt, int larguraChar) {
+  int x = (296 - (int)strlen(txt) * larguraChar) / 2;
   return x < 0 ? 0 : x;
 }
 
 // Cursor de lista: triangulo cheio a esquerda da linha 'i' (0..3).
 void cursorLista(int i) {
   int topo = 24 + i * 28;
-  if (i == 3) topo = 107;            // ultima linha encosta na borda
+  if (i == 3)
+    topo = 107; // ultima linha encosta na borda
   tela.fillTriangle(4, topo, 4, topo + 16, 14, topo + 8, GxEPD_BLACK);
 }
 
@@ -31,7 +32,8 @@ void cursorLista(int i) {
 void setasEntrar(int n) {
   for (int i = 0; i < n; i++) {
     int topo = 24 + i * 28;
-    if (i == 3) topo = 107;
+    if (i == 3)
+      topo = 107;
     tela.fillTriangle(272, topo, 272, topo + 16, 282, topo + 8, GxEPD_BLACK);
   }
 }
@@ -84,24 +86,36 @@ void desenharMenu(int indice) {
   tela.drawLine(148, 19, 148, 127, GxEPD_BLACK);
   tela.drawLine(0, 73, 296, 73, GxEPD_BLACK);
 
-  if (indice == 0)      tela.drawRect(3, 22, 142, 48, GxEPD_BLACK);
-  else if (indice == 1) tela.drawRect(152, 22, 142, 48, GxEPD_BLACK);
-  else if (indice == 2) tela.drawRect(3, 78, 142, 48, GxEPD_BLACK);
-  else if (indice == 3) tela.drawRect(152, 78, 142, 48, GxEPD_BLACK);
+  if (indice == 0)
+    tela.drawRect(3, 22, 142, 48, GxEPD_BLACK);
+  else if (indice == 1)
+    tela.drawRect(152, 22, 142, 48, GxEPD_BLACK);
+  else if (indice == 2)
+    tela.drawRect(3, 78, 142, 48, GxEPD_BLACK);
+  else if (indice == 3)
+    tela.drawRect(152, 78, 142, 48, GxEPD_BLACK);
 
   fontes.setFont(u8g2_font_open_iconic_all_4x_t);
   fontes.setFontMode(1);
-  fontes.setCursor(58, 54);  fontes.print("a");
-  fontes.setCursor(206, 54); fontes.print("X");
-  fontes.setCursor(58, 108); fontes.print("q");
-  fontes.setCursor(206, 108); fontes.print("z");
+  fontes.setCursor(58, 54);
+  fontes.print("a");
+  fontes.setCursor(206, 54);
+  fontes.print("X");
+  fontes.setCursor(58, 108);
+  fontes.print("q");
+  fontes.setCursor(206, 108);
+  fontes.print("z");
 
   fontes.setFont(u8g2_font_helvB12_te);
   fontes.setFontMode(1);
-  fontes.setCursor(46, 66);  fontes.print("Cardapio");
-  fontes.setCursor(198, 66); fontes.print("Apostar");
-  fontes.setCursor(49, 120); fontes.print("Pedidos");
-  fontes.setCursor(165, 120); fontes.print("Minhas Apostas");
+  fontes.setCursor(46, 66);
+  fontes.print("Cardapio");
+  fontes.setCursor(198, 66);
+  fontes.print("Apostar");
+  fontes.setCursor(49, 120);
+  fontes.print("Pedidos");
+  fontes.setCursor(165, 120);
+  fontes.print("Minhas Apostas");
 
   tela.display(true);
 }
@@ -127,16 +141,20 @@ void desenharCardapio(int indice) {
 
   fontes.setFont(u8g2_font_helvB14_te);
   fontes.setFontMode(1);
-  fontes.setCursor(22, 38);  fontes.print("Cervejas");
-  fontes.setCursor(22, 66);  fontes.print("Drinks");
-  fontes.setCursor(22, 94);  fontes.print("Petiscos");
-  fontes.setCursor(22, 122); fontes.print("Não Alcoólico");
+  fontes.setCursor(22, 38);
+  fontes.print("Cervejas");
+  fontes.setCursor(22, 66);
+  fontes.print("Drinks");
+  fontes.setCursor(22, 94);
+  fontes.print("Petiscos");
+  fontes.setCursor(22, 122);
+  fontes.print("Não Alcoólico");
 
   tela.display(true);
 }
 
 // Lista de produtos de uma categoria, montada dinamicamente a partir do JSON.
-void desenharListaProdutos(const char* titulo, JsonArray produtos, int indice) {
+void desenharListaProdutos(const char *titulo, JsonArray produtos, int indice) {
   tela.fillScreen(GxEPD_WHITE);
 
   fontes.setFont(u8g2_font_helvB12_te);
@@ -150,7 +168,8 @@ void desenharListaProdutos(const char* titulo, JsonArray produtos, int indice) {
   tela.drawLine(0, 102, 296, 102, GxEPD_BLACK);
 
   int n = produtos.size();
-  if (n > 4) n = 4;
+  if (n > 4)
+    n = 4;
 
   cursorLista(indice);
   setasEntrar(n);
@@ -161,7 +180,7 @@ void desenharListaProdutos(const char* titulo, JsonArray produtos, int indice) {
     fontes.setFont(u8g2_font_helvB14_te);
     fontes.setFontMode(1);
     fontes.setCursor(22, yb[i]);
-    fontes.print(p["nome"].as<const char*>());
+    fontes.print(p["nome"].as<const char *>());
 
     char preco[12];
     snprintf(preco, sizeof(preco), "R$%d", p["preco"].as<int>());
@@ -175,7 +194,8 @@ void desenharListaProdutos(const char* titulo, JsonArray produtos, int indice) {
 }
 
 // Tela de detalhe GENERICA: serve para qualquer produto.
-void desenharDetalheProduto(const char* titulo, const char* nome, int preco, const char* descricao) {
+void desenharDetalheProduto(const char *titulo, const char *nome, int preco,
+                            const char *descricao) {
   tela.fillScreen(GxEPD_WHITE);
 
   fontes.setFont(u8g2_font_helvB12_te);
@@ -215,7 +235,8 @@ void desenharDetalheProduto(const char* titulo, const char* nome, int preco, con
 }
 
 // Monitor ao vivo do copo do cliente (categoria Cervejas).
-void desenharControleCerveja(int quantidadeMl, float temperaturaC, const char* status, int nivelBateria) {
+void desenharControleCerveja(int quantidadeMl, float temperaturaC,
+                             const char *status, int nivelBateria) {
   tela.fillScreen(GxEPD_WHITE);
 
   fontes.setFont(u8g2_font_helvB12_te);
@@ -268,7 +289,8 @@ void desenharListaJogos(JsonArray jogos, int indice) {
   tela.drawLine(0, 102, 296, 102, GxEPD_BLACK);
 
   int n = jogos.size();
-  if (n > 4) n = 4;
+  if (n > 4)
+    n = 4;
 
   cursorLista(indice);
   setasEntrar(n);
@@ -276,9 +298,12 @@ void desenharListaJogos(JsonArray jogos, int indice) {
   int yb[] = {38, 66, 94, 122};
   for (int i = 0; i < n; i++) {
     JsonObject j = jogos[i];
-    fontes.setCursor(22, yb[i]);  fontes.print(j["casa"].as<const char*>());
-    fontes.setCursor(136, yb[i]); fontes.print("x");
-    fontes.setCursor(150, yb[i]); fontes.print(j["fora"].as<const char*>());
+    fontes.setCursor(22, yb[i]);
+    fontes.print(j["casa"].as<const char *>());
+    fontes.setCursor(136, yb[i]);
+    fontes.print("x");
+    fontes.setCursor(150, yb[i]);
+    fontes.print(j["fora"].as<const char *>());
   }
 
   tela.display(true);
@@ -296,7 +321,7 @@ void desenharJogo(JsonObject jogo, int palpiteFoco) {
 
   char contexto[40];
   snprintf(contexto, sizeof(contexto), "%s  X  %s",
-           jogo["casa"].as<const char*>(), jogo["fora"].as<const char*>());
+           jogo["casa"].as<const char *>(), jogo["fora"].as<const char *>());
   fontes.setCursor(centralizar(contexto, 8), 34);
   fontes.print(contexto);
   tela.drawLine(0, 40, 296, 40, GxEPD_BLACK);
@@ -306,7 +331,8 @@ void desenharJogo(JsonObject jogo, int palpiteFoco) {
 
   // cursor de palpite
   int topo[] = {45, 72, 103};
-  tela.fillTriangle(4, topo[palpiteFoco], 4, topo[palpiteFoco] + 16, 14, topo[palpiteFoco] + 8, GxEPD_BLACK);
+  tela.fillTriangle(4, topo[palpiteFoco], 4, topo[palpiteFoco] + 16, 14,
+                    topo[palpiteFoco] + 8, GxEPD_BLACK);
 
   // setas de "entrar" nas 3 opcoes
   tela.fillTriangle(272, 45, 272, 61, 282, 53, GxEPD_BLACK);
@@ -314,21 +340,29 @@ void desenharJogo(JsonObject jogo, int palpiteFoco) {
   tela.fillTriangle(272, 103, 272, 119, 282, 111, GxEPD_BLACK);
 
   char opcCasa[28], opcFora[28];
-  snprintf(opcCasa, sizeof(opcCasa), "%s vence", jogo["casa"].as<const char*>());
-  snprintf(opcFora, sizeof(opcFora), "%s vence", jogo["fora"].as<const char*>());
+  snprintf(opcCasa, sizeof(opcCasa), "%s vence",
+           jogo["casa"].as<const char *>());
+  snprintf(opcFora, sizeof(opcFora), "%s vence",
+           jogo["fora"].as<const char *>());
 
-  fontes.setCursor(22, 59);  fontes.print(opcCasa);
-  fontes.setCursor(22, 86);  fontes.print("Empate");
-  fontes.setCursor(22, 117); fontes.print(opcFora);
+  fontes.setCursor(22, 59);
+  fontes.print(opcCasa);
+  fontes.setCursor(22, 86);
+  fontes.print("Empate");
+  fontes.setCursor(22, 117);
+  fontes.print(opcFora);
 
   tela.display(true);
 }
 
 // Monta o texto do palpite (0=casa, 1=empate, 2=fora) em 'buf'.
-void textoPalpite(JsonObject jogo, int palpite, char* buf, int tam) {
-  if (palpite == 0)      snprintf(buf, tam, "%s vence", jogo["casa"].as<const char*>());
-  else if (palpite == 1) snprintf(buf, tam, "Empate");
-  else                   snprintf(buf, tam, "%s vence", jogo["fora"].as<const char*>());
+void textoPalpite(JsonObject jogo, int palpite, char *buf, int tam) {
+  if (palpite == 0)
+    snprintf(buf, tam, "%s vence", jogo["casa"].as<const char *>());
+  else if (palpite == 1)
+    snprintf(buf, tam, "Empate");
+  else
+    snprintf(buf, tam, "%s vence", jogo["fora"].as<const char *>());
 }
 
 // Resumo da aposta antes de confirmar.
@@ -343,7 +377,7 @@ void desenharConfirmacao(JsonObject jogo, int palpite) {
 
   char contexto[40];
   snprintf(contexto, sizeof(contexto), "%s X %s",
-           jogo["casa"].as<const char*>(), jogo["fora"].as<const char*>());
+           jogo["casa"].as<const char *>(), jogo["fora"].as<const char *>());
   fontes.setCursor(10, 33);
   fontes.print(contexto);
 
@@ -396,7 +430,7 @@ void desenharConfirmado(JsonObject jogo, int palpite) {
 
   char contexto[40];
   snprintf(contexto, sizeof(contexto), "%s x %s",
-           jogo["casa"].as<const char*>(), jogo["fora"].as<const char*>());
+           jogo["casa"].as<const char *>(), jogo["fora"].as<const char *>());
   fontes.setFont(u8g2_font_helvB12_te);
   fontes.setFontMode(1);
   fontes.setCursor(centralizar(contexto, 8), 103);
@@ -420,8 +454,10 @@ void desenharMenuPedidos(int indice) {
 
   tela.drawLine(0, 73, 296, 73, GxEPD_BLACK);
 
-  if (indice == 0)      tela.fillTriangle(4, 37, 4, 53, 14, 45, GxEPD_BLACK);
-  else if (indice == 1) tela.fillTriangle(4, 92, 4, 108, 14, 100, GxEPD_BLACK);
+  if (indice == 0)
+    tela.fillTriangle(4, 37, 4, 53, 14, 45, GxEPD_BLACK);
+  else if (indice == 1)
+    tela.fillTriangle(4, 92, 4, 108, 14, 100, GxEPD_BLACK);
 
   tela.fillTriangle(272, 37, 272, 53, 282, 45, GxEPD_BLACK);
   tela.fillTriangle(272, 92, 272, 108, 282, 100, GxEPD_BLACK);
@@ -451,7 +487,8 @@ void desenharMeusPedidos(JsonArray pedidos, int total) {
   tela.drawLine(0, 102, 296, 102, GxEPD_BLACK);
 
   int n = pedidos.size();
-  if (n > 3) n = 3;  // a 4a linha e reservada para o Total
+  if (n > 3)
+    n = 3; // a 4a linha e reservada para o Total
 
   int yb[] = {38, 66, 94};
   for (int i = 0; i < n; i++) {
@@ -459,7 +496,7 @@ void desenharMeusPedidos(JsonArray pedidos, int total) {
     fontes.setFont(u8g2_font_helvB14_te);
     fontes.setFontMode(1);
     fontes.setCursor(10, yb[i]);
-    fontes.print(p["nome"].as<const char*>());
+    fontes.print(p["nome"].as<const char *>());
 
     char preco[12];
     snprintf(preco, sizeof(preco), "R$%d", p["preco"].as<int>());
@@ -485,7 +522,7 @@ void desenharMeusPedidos(JsonArray pedidos, int total) {
 }
 
 // Tela de pagamento com QR Code Pix.
-void desenharPagarConta(float total) {
+void desenharPagarConta(float total, bool pago) {
   tela.fillScreen(GxEPD_WHITE);
 
   fontes.setFont(u8g2_font_helvB12_te);
@@ -511,14 +548,20 @@ void desenharPagarConta(float total) {
   qrcode.generateData(payloadPixAtual);
   int16_t ladoBase = qrcode.getSideLength();
   int escala = (ladoBase > 0) ? (ladoMaximo / ladoBase) : 1;
-  if (escala < 1) escala = 1;
+  if (escala < 1)
+    escala = 1;
   qrcode.setScale(escala);
   int16_t ladoFinal = qrcode.getSideLength();
   int qrX = (296 - ladoFinal) / 2;
   qrcode.draw(qrX, 42, true);
 
-  fontes.setCursor(66, 120);
-  fontes.print("Pago? Aperte OK");
+  if (pago) {
+    fontes.setCursor(centralizar("PIX Confirmado!", 8), 120);
+    fontes.print("PIX Confirmado!");
+  } else {
+    fontes.setCursor(centralizar("Aguardando pagamento...", 8), 120);
+    fontes.print("Aguardando pagamento...");
+  }
 
   tela.display(true);
 }
@@ -534,25 +577,28 @@ void desenharMinhasApostas(JsonArray apostas) {
   tela.drawLine(0, 18, 296, 18, GxEPD_BLACK);
 
   int n = apostas.size();
-  if (n > 2) n = 2;
+  if (n > 2)
+    n = 2;
 
-  if (n > 1) tela.drawLine(0, 72, 296, 72, GxEPD_BLACK);
+  if (n > 1)
+    tela.drawLine(0, 72, 296, 72, GxEPD_BLACK);
 
-  int yJogo[]    = {43, 97};
+  int yJogo[] = {43, 97};
   int yPalpite[] = {59, 113};
   for (int i = 0; i < n; i++) {
     JsonObject ap = apostas[i];
 
     fontes.setCursor(10, yJogo[i]);
-    fontes.print(ap["jogo"].as<const char*>());
+    fontes.print(ap["jogo"].as<const char *>());
 
     char palp[40];
-    snprintf(palp, sizeof(palp), "Apostei: %s", ap["palpite"].as<const char*>());
+    snprintf(palp, sizeof(palp), "Apostei: %s",
+             ap["palpite"].as<const char *>());
     fontes.setCursor(10, yPalpite[i]);
     fontes.print(palp);
 
-    const char* status = ap["status"].as<const char*>();
-    int xStatus = 296 - (int) strlen(status) * 8 - 6;
+    const char *status = ap["status"].as<const char *>();
+    int xStatus = 296 - (int)strlen(status) * 8 - 6;
     fontes.setCursor(xStatus, yPalpite[i]);
     fontes.print(status);
   }
@@ -562,38 +608,46 @@ void desenharMinhasApostas(JsonArray apostas) {
 
 void desenharAguardandoCartao() {
   tela.fillScreen(GxEPD_WHITE);
-  fontes.setFont(u8g2_font_helvB24_te); fontes.setFontMode(1);
+  fontes.setFont(u8g2_font_helvB24_te);
+  fontes.setFontMode(1);
   fontes.setCursor(centralizar("BetBar", 20), 34);
   fontes.print("BetBar");
   tela.drawLine(10, 44, 286, 44, GxEPD_BLACK);
   // simbolo de cartao
   tela.drawRoundRect(120, 58, 56, 34, 4, GxEPD_BLACK);
   tela.fillRect(120, 66, 56, 8, GxEPD_BLACK);
-  fontes.setFont(u8g2_font_helvB12_te); fontes.setFontMode(1);
+  fontes.setFont(u8g2_font_helvB12_te);
+  fontes.setFontMode(1);
   fontes.setCursor(centralizar("Encoste seu cartao", 8), 112);
   fontes.print("Encoste seu cartao");
   tela.display(true);
 }
 
-void desenharAviso(const char* msg) {
+void desenharAviso(const char *msg) {
   tela.fillScreen(GxEPD_WHITE);
   // triangulo de alerta
   tela.drawTriangle(148, 30, 128, 66, 168, 66, GxEPD_BLACK);
-  fontes.setFont(u8g2_font_helvB18_te); fontes.setFontMode(1);
-  fontes.setCursor(144, 60); fontes.print("!");
-  fontes.setFont(u8g2_font_helvB12_te); fontes.setFontMode(1);
-  fontes.setCursor(centralizar(msg, 8), 92); fontes.print(msg);
+  fontes.setFont(u8g2_font_helvB18_te);
+  fontes.setFontMode(1);
+  fontes.setCursor(144, 60);
+  fontes.print("!");
+  fontes.setFont(u8g2_font_helvB12_te);
+  fontes.setFontMode(1);
+  fontes.setCursor(centralizar(msg, 8), 92);
+  fontes.print(msg);
   fontes.setCursor(centralizar("Esquerda para voltar", 7), 116);
   fontes.print("Esquerda para voltar");
   tela.display(true);
 }
 
-void desenharCarregando(const char* msg) {
+void desenharCarregando(const char *msg) {
   tela.fillScreen(GxEPD_WHITE);
-  fontes.setFont(u8g2_font_helvB18_te); fontes.setFontMode(1);
+  fontes.setFont(u8g2_font_helvB18_te);
+  fontes.setFontMode(1);
   fontes.setCursor(centralizar("Carregando...", 12), 56);
   fontes.print("Carregando...");
-  fontes.setFont(u8g2_font_helvB12_te); fontes.setFontMode(1);
+  fontes.setFont(u8g2_font_helvB12_te);
+  fontes.setFontMode(1);
   fontes.setCursor(centralizar(msg, 8), 84);
   fontes.print(msg);
   tela.display(true);

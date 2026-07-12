@@ -1,15 +1,16 @@
-#include "globais.h"
-#include "modelo.h"
-#include "estado_dados.h"
-#include "wifi_module.h"
-#include "mqtt_module.h"
-#include "rfid_module.h"
 #include "apostas.h"
 #include "cardapio.h"
 #include "dados.h"
 #include "desenhos.h"
+#include "estado_dados.h"
+#include "globais.h"
+#include "modelo.h"
+#include "mqtt_module.h"
 #include "navegacao.h"
 #include "preferencia.h"
+#include "rfid_module.h"
+#include "wifi_module.h"
+
 
 // --- Definicao dos objetos globais declarados como extern em globais.h ---
 U8G2_FOR_ADAFRUIT_GFX fontes;
@@ -18,29 +19,29 @@ GxEPD2_BW<GxEPD2_290_T94_V2, GxEPD2_290_T94_V2::HEIGHT> tela(modeloTela);
 QRCodeGFX qrcode(tela);
 
 // --- Buffers de dados (declarados em estado_dados.h) ---
-Cliente clienteAtual   = {99, "", "", ""};
-bool    clienteCarregado = false;
+Cliente clienteAtual = {99, "", "", ""};
+bool clienteCarregado = false;
 Partida partidas[20];
-uint8_t totalPartidas  = 0;
-bool    partidasProntas = false;
-Aposta  apostas[20];
-uint8_t totalApostas   = 0;
-bool    apostasProntas  = false;
+uint8_t totalPartidas = 0;
+bool partidasProntas = false;
+Aposta apostas[20];
+uint8_t totalApostas = 0;
+bool apostasProntas = false;
 volatile bool precisaRedesenhar = false;
 
-Produto    produtos[20];
-uint8_t    totalProdutos = 0;
-bool       produtosProntos = false;
+Produto produtos[20];
+uint8_t totalProdutos = 0;
+bool produtosProntos = false;
 
 PedidoItem meusPedidos[20];
-uint8_t    totalMeusPedidos = 0;
-bool       meusPedidosProntos = false;
+uint8_t totalMeusPedidos = 0;
+bool meusPedidosProntos = false;
 
 Copo copoAtual;
 bool copoProntos = false;
 
 float totalContaAtual = 0.0f;
-bool  totalContaProntas = false;
+bool totalContaProntas = false;
 
 String rfidAtual = "";
 
@@ -53,10 +54,10 @@ void mqttMensagemRecebida(String topico, String conteudo) {
 
 // --- Botoes ---
 GFButton botao_up(1);
-GFButton botao_down(42);
-GFButton botao_left(41);
-GFButton botao_right(40);
-GFButton botao_mid(2);
+GFButton botao_down(2);
+GFButton botao_left(42);
+GFButton botao_right(41);
+GFButton botao_mid(40);
 
 // --- Preferences ---
 Preferences preferencias;
@@ -114,10 +115,12 @@ void loop() {
     JsonDocument docAuth;
     docAuth["rfid"] = uid;
     docAuth["mesa"] = getNumeroMesa();
-    String payloadAuth; serializeJson(docAuth, payloadAuth);
+    String payloadAuth;
+    serializeJson(docAuth, payloadAuth);
     mqttPublicar(TOPICO_AUTENTICA_CLIENTE, payloadAuth);
     strncpy(msgCarregando, "Autenticando", sizeof(msgCarregando) - 1);
-    estado.tipo = CARREGANDO; estado.indice = ESPERANDO_CLIENTE;
+    estado.tipo = CARREGANDO;
+    estado.indice = ESPERANDO_CLIENTE;
     renderizarTelaAtual();
   }
 
@@ -130,6 +133,15 @@ void loop() {
   // Tela "Confirmado!": apos 10s volta sozinha para o menu.
   if (estado.tipo == CONFIRMADO && (millis() - instanteConfirmado >= 10000)) {
     irParaMenu();
+  }
+
+  if (estado.tipo == PIX_CONFIRMADO &&
+      (millis() - instanteConfirmado >= 10000)) {
+    pilhaTopo = 0;
+    clienteCarregado = false;
+    estado.tipo = AGUARDANDO_CARTAO;
+    estado.indice = 0;
+    renderizarTelaAtual();
   }
 
   // Volta para a tela inicial apos 1 min sem nenhuma interacao.
@@ -146,10 +158,12 @@ void loop() {
 
   static unsigned long inicioCarregando = 0;
   if (estado.tipo == CARREGANDO) {
-    if (inicioCarregando == 0) inicioCarregando = millis();
+    if (inicioCarregando == 0)
+      inicioCarregando = millis();
     if (millis() - inicioCarregando > 8000) {
       strncpy(msgCarregando, "Sem resposta", sizeof(msgCarregando) - 1);
-      estado.tipo = AVISO; renderizarTelaAtual();
+      estado.tipo = AVISO;
+      renderizarTelaAtual();
       inicioCarregando = 0;
     }
   } else {

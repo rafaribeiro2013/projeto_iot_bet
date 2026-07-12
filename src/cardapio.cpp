@@ -5,6 +5,7 @@
 
 String payloadPixAtual = "";
 bool pixPronto = false;
+bool pagamentoConfirmado = false;
 
 void cardapioInit() {
   mqtt.subscribe(TOPICO_CARDAPIO);
@@ -12,6 +13,7 @@ void cardapioInit() {
   mqtt.subscribe(TOPICO_COPO);
   mqtt.subscribe(TOPICO_TOTAL_CONTA);
   mqtt.subscribe(TOPICO_CODIGO_PIX);
+  mqtt.subscribe(TOPICO_LIBERA_PIX);
   Serial.println("[Cardapio] Modulo inicializado.");
 }
 
@@ -138,6 +140,7 @@ static void _processarTotalConta(const String& conteudo) {
 
 void solicitarPix(float valor) {
   pixPronto = false;
+  pagamentoConfirmado = false;
   JsonDocument doc;
   doc["valor"] = valor;
   doc["mesa"] = getNumeroMesa();
@@ -165,10 +168,19 @@ void liberarCopo(int32_t idCliente) {
 }
 
 bool cardapioProcessarMensagem(const String& topico, const String& conteudo) {
+  int mesa = getNumeroMesa();
+  Serial.println("Topico: "+topico+" Valor: "+conteudo);
+  Serial.println(mesa);
   if (topico == TOPICO_CARDAPIO)     { _processarCardapio(conteudo);     return true; }
   if (topico == TOPICO_MEUS_PEDIDOS) { _processarMeusPedidos(conteudo);  return true; }
   if (topico == TOPICO_COPO)         { _processarCopo(conteudo);        return true; }
   if (topico == TOPICO_TOTAL_CONTA)  { _processarTotalConta(conteudo);  return true; }
   if (topico == TOPICO_CODIGO_PIX)   { _processarPix(conteudo);         return true; }
+  if (topico == (String("liberaPix/") + String(mesa))) {
+      pagamentoConfirmado = true;
+      precisaRedesenhar = true;
+      Serial.println("[Cardapio] Pagamento confirmado recebido para esta mesa!");
+      return true;
+  }
   return false;
 }

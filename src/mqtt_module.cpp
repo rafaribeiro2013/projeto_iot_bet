@@ -18,6 +18,7 @@ static void mqttInscrever() {
   mqtt.subscribe(TOPICO_COPO);
   mqtt.subscribe(TOPICO_TOTAL_CONTA);
   mqtt.subscribe(TOPICO_CODIGO_PIX);
+  mqtt.subscribe(TOPICO_LIBERA_PIX);
   Serial.println("[MQTT] Inscrito nos topicos.");
 }
 
