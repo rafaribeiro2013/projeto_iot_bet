@@ -1,607 +1,659 @@
 [
-  {
-      "id": "c1a0000000000000",
-      "type": "tab",
-      "label": "Cardapio, Pedidos e Conta",
-      "disabled": false,
-      "info": "",
-      "env": []
-  },
-  {
-      "id": "c1a0000000000001",
-      "type": "mqtt in",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/getCardapio",
-      "qos": "2",
-      "datatype": "auto-detect",
-      "broker": "fa7923ade7c363e8",
-      "nl": false,
-      "rap": true,
-      "rh": 0,
-      "inputs": 0,
-      "x": 210,
-      "y": 160,
-      "wires": [
-          [
-              "c1a0000000000002"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000002",
-      "type": "change",
-      "z": "c1a0000000000000",
-      "name": "",
-      "rules": [
-          {
-              "t": "move",
-              "p": "payload",
-              "pt": "msg",
-              "to": "queryParameters",
-              "tot": "msg"
-          }
-      ],
-      "action": "",
-      "property": "",
-      "from": "",
-      "to": "",
-      "reg": false,
-      "x": 530,
-      "y": 160,
-      "wires": [
-          [
-              "c1a0000000000003"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000003",
-      "type": "postgresql",
-      "z": "c1a0000000000000",
-      "name": "",
-      "query": "SELECT id, preco, categoria, nome_comida, descricao\nFROM cardapio\nWHERE categoria = $categoria;",
-      "postgreSQLConfig": "1251550e75985b59",
-      "split": false,
-      "rowsPerMsg": 1,
-      "outputs": 1,
-      "x": 850,
-      "y": 160,
-      "wires": [
-          [
-              "c1a0000000000004",
-              "c1a0000000000005"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000004",
-      "type": "debug",
-      "z": "c1a0000000000000",
-      "name": "debug cardapio",
-      "active": true,
-      "tosidebar": true,
-      "console": false,
-      "tostatus": false,
-      "complete": "payload",
-      "targetType": "msg",
-      "statusVal": "",
-      "statusType": "auto",
-      "x": 870,
-      "y": 100,
-      "wires": []
-  },
-  {
-      "id": "c1a0000000000005",
-      "type": "mqtt out",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/cardapio",
-      "qos": "1",
-      "retain": "",
-      "respTopic": "",
-      "contentType": "",
-      "userProps": "",
-      "correl": "",
-      "expiry": "",
-      "broker": "fa7923ade7c363e8",
-      "x": 1150,
-      "y": 160,
-      "wires": []
-  },
-
-  {
-      "id": "c1a0000000000010",
-      "type": "mqtt in",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/registrarPedido",
-      "qos": "2",
-      "datatype": "auto-detect",
-      "broker": "fa7923ade7c363e8",
-      "nl": false,
-      "rap": true,
-      "rh": 0,
-      "inputs": 0,
-      "x": 210,
-      "y": 440,
-      "wires": [
-          [
-              "c1a0000000000011"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000011",
-      "type": "change",
-      "z": "c1a0000000000000",
-      "name": "",
-      "rules": [
-          {
-              "t": "move",
-              "p": "payload",
-              "pt": "msg",
-              "to": "queryParameters",
-              "tot": "msg"
-          }
-      ],
-      "action": "",
-      "property": "",
-      "from": "",
-      "to": "",
-      "reg": false,
-      "x": 530,
-      "y": 440,
-      "wires": [
-          [
-              "c1a0000000000012"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000012",
-      "type": "postgresql",
-      "z": "c1a0000000000000",
-      "name": "",
-      "query": "INSERT INTO consumo_comidas (id_comida, id_copo)\nVALUES (\n  $id_produto,\n  (SELECT id_copo FROM vinculo_copo_cliente WHERE id_cliente = $id_cliente AND ativo = true ORDER BY data_vinculo DESC LIMIT 1)\n);",
-      "postgreSQLConfig": "1251550e75985b59",
-      "split": false,
-      "rowsPerMsg": 1,
-      "outputs": 1,
-      "x": 870,
-      "y": 440,
-      "wires": [
-          [
-              "c1a0000000000013"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000013",
-      "type": "debug",
-      "z": "c1a0000000000000",
-      "name": "debug registrarPedido",
-      "active": true,
-      "tosidebar": true,
-      "console": false,
-      "tostatus": false,
-      "complete": "payload",
-      "targetType": "msg",
-      "statusVal": "",
-      "statusType": "auto",
-      "x": 1130,
-      "y": 440,
-      "wires": []
-  },
-
-  {
-      "id": "c1a0000000000020",
-      "type": "mqtt in",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/getMeusPedidos",
-      "qos": "2",
-      "datatype": "auto-detect",
-      "broker": "fa7923ade7c363e8",
-      "nl": false,
-      "rap": true,
-      "rh": 0,
-      "inputs": 0,
-      "x": 210,
-      "y": 720,
-      "wires": [
-          [
-              "c1a0000000000021"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000021",
-      "type": "change",
-      "z": "c1a0000000000000",
-      "name": "",
-      "rules": [
-          {
-              "t": "move",
-              "p": "payload",
-              "pt": "msg",
-              "to": "queryParameters",
-              "tot": "msg"
-          }
-      ],
-      "action": "",
-      "property": "",
-      "from": "",
-      "to": "",
-      "reg": false,
-      "x": 530,
-      "y": 720,
-      "wires": [
-          [
-              "c1a0000000000022"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000022",
-      "type": "postgresql",
-      "z": "c1a0000000000000",
-      "name": "",
-      "query": "SELECT consumo_comidas.id, consumo_comidas.created_at,\n       consumo_comidas.id_comida AS id_produto,\n       cardapio.nome_comida, cardapio.preco\nFROM consumo_comidas\nJOIN cardapio ON cardapio.id = consumo_comidas.id_comida\nJOIN vinculo_copo_cliente v ON v.id_copo = consumo_comidas.id_copo\nWHERE v.id_cliente = $id_cliente\nORDER BY consumo_comidas.created_at DESC;",
-      "postgreSQLConfig": "1251550e75985b59",
-      "split": false,
-      "rowsPerMsg": 1,
-      "outputs": 1,
-      "x": 850,
-      "y": 720,
-      "wires": [
-          [
-              "c1a0000000000023",
-              "c1a0000000000024"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000023",
-      "type": "debug",
-      "z": "c1a0000000000000",
-      "name": "debug meusPedidos",
-      "active": true,
-      "tosidebar": true,
-      "console": false,
-      "tostatus": false,
-      "complete": "payload",
-      "targetType": "msg",
-      "statusVal": "",
-      "statusType": "auto",
-      "x": 880,
-      "y": 660,
-      "wires": []
-  },
-  {
-      "id": "c1a0000000000024",
-      "type": "mqtt out",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/meusPedidos",
-      "qos": "1",
-      "retain": "",
-      "respTopic": "",
-      "contentType": "",
-      "userProps": "",
-      "correl": "",
-      "expiry": "",
-      "broker": "fa7923ade7c363e8",
-      "x": 1150,
-      "y": 720,
-      "wires": []
-  },
-
-  {
-      "id": "c1a0000000000030",
-      "type": "mqtt in",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/getCopo",
-      "qos": "2",
-      "datatype": "auto-detect",
-      "broker": "fa7923ade7c363e8",
-      "nl": false,
-      "rap": true,
-      "rh": 0,
-      "inputs": 0,
-      "x": 210,
-      "y": 1000,
-      "wires": [
-          [
-              "c1a0000000000031"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000031",
-      "type": "change",
-      "z": "c1a0000000000000",
-      "name": "",
-      "rules": [
-          {
-              "t": "move",
-              "p": "payload",
-              "pt": "msg",
-              "to": "queryParameters",
-              "tot": "msg"
-          }
-      ],
-      "action": "",
-      "property": "",
-      "from": "",
-      "to": "",
-      "reg": false,
-      "x": 530,
-      "y": 1000,
-      "wires": [
-          [
-              "c1a0000000000032"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000032",
-      "type": "postgresql",
-      "z": "c1a0000000000000",
-      "name": "",
-      "query": "SELECT copos.*, v.id_cliente\nFROM copos\nLEFT JOIN vinculo_copo_cliente v ON v.id_copo = copos.id AND v.ativo = true\nWHERE copos.rfid = $rfid;",
-      "postgreSQLConfig": "1251550e75985b59",
-      "split": false,
-      "rowsPerMsg": 1,
-      "outputs": 1,
-      "x": 850,
-      "y": 1000,
-      "wires": [
-          [
-              "c1a0000000000033",
-              "c1a0000000000034"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000033",
-      "type": "debug",
-      "z": "c1a0000000000000",
-      "name": "debug copo",
-      "active": true,
-      "tosidebar": true,
-      "console": false,
-      "tostatus": false,
-      "complete": "payload",
-      "targetType": "msg",
-      "statusVal": "",
-      "statusType": "auto",
-      "x": 870,
-      "y": 940,
-      "wires": []
-  },
-  {
-      "id": "c1a0000000000034",
-      "type": "mqtt out",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/copo",
-      "qos": "1",
-      "retain": "",
-      "respTopic": "",
-      "contentType": "",
-      "userProps": "",
-      "correl": "",
-      "expiry": "",
-      "broker": "fa7923ade7c363e8",
-      "x": 1140,
-      "y": 1000,
-      "wires": []
-  },
-
-  {
-      "id": "c1a0000000000040",
-      "type": "mqtt in",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/getTotalConta",
-      "qos": "2",
-      "datatype": "auto-detect",
-      "broker": "fa7923ade7c363e8",
-      "nl": false,
-      "rap": true,
-      "rh": 0,
-      "inputs": 0,
-      "x": 220,
-      "y": 1280,
-      "wires": [
-          [
-              "c1a0000000000041"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000041",
-      "type": "change",
-      "z": "c1a0000000000000",
-      "name": "",
-      "rules": [
-          {
-              "t": "move",
-              "p": "payload",
-              "pt": "msg",
-              "to": "queryParameters",
-              "tot": "msg"
-          }
-      ],
-      "action": "",
-      "property": "",
-      "from": "",
-      "to": "",
-      "reg": false,
-      "x": 540,
-      "y": 1280,
-      "wires": [
-          [
-              "c1a0000000000042"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000042",
-      "type": "postgresql",
-      "z": "c1a0000000000000",
-      "name": "",
-      "query": "SELECT\n  COALESCE((\n    SELECT SUM(cardapio.preco)\n    FROM consumo_comidas\n    JOIN cardapio ON cardapio.id = consumo_comidas.id_comida\n    JOIN vinculo_copo_cliente v ON v.id_copo = consumo_comidas.id_copo\n    WHERE v.id_cliente = $id_cliente AND v.ativo = true\n  ), 0)\n  +\n  COALESCE((\n    SELECT SUM(cb.valor_real - cb.desconto)\n    FROM consumo_bebidas cb\n    JOIN vinculo_copo_cliente v ON v.id = cb.vinculo_copo_cliente\n    WHERE v.id_cliente = $id_cliente AND v.ativo = true\n  ), 0)\n  AS total;",
-      "postgreSQLConfig": "1251550e75985b59",
-      "split": false,
-      "rowsPerMsg": 1,
-      "outputs": 1,
-      "x": 870,
-      "y": 1280,
-      "wires": [
-          [
-              "c1a0000000000043",
-              "c1a0000000000044"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000043",
-      "type": "debug",
-      "z": "c1a0000000000000",
-      "name": "debug totalConta",
-      "active": true,
-      "tosidebar": true,
-      "console": false,
-      "tostatus": false,
-      "complete": "payload",
-      "targetType": "msg",
-      "statusVal": "",
-      "statusType": "auto",
-      "x": 890,
-      "y": 1220,
-      "wires": []
-  },
-  {
-      "id": "c1a0000000000044",
-      "type": "mqtt out",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/totalConta",
-      "qos": "1",
-      "retain": "",
-      "respTopic": "",
-      "contentType": "",
-      "userProps": "",
-      "correl": "",
-      "expiry": "",
-      "broker": "fa7923ade7c363e8",
-      "x": 1160,
-      "y": 1280,
-      "wires": []
-  },
-
-  {
-      "id": "c1a0000000000050",
-      "type": "mqtt in",
-      "z": "c1a0000000000000",
-      "name": "",
-      "topic": "bet/liberarCopo",
-      "qos": "2",
-      "datatype": "auto-detect",
-      "broker": "fa7923ade7c363e8",
-      "nl": false,
-      "rap": true,
-      "rh": 0,
-      "inputs": 0,
-      "x": 210,
-      "y": 1560,
-      "wires": [
-          [
-              "c1a0000000000051"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000051",
-      "type": "change",
-      "z": "c1a0000000000000",
-      "name": "",
-      "rules": [
-          {
-              "t": "move",
-              "p": "payload",
-              "pt": "msg",
-              "to": "queryParameters",
-              "tot": "msg"
-          }
-      ],
-      "action": "",
-      "property": "",
-      "from": "",
-      "to": "",
-      "reg": false,
-      "x": 530,
-      "y": 1560,
-      "wires": [
-          [
-              "c1a0000000000052"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000052",
-      "type": "postgresql",
-      "z": "c1a0000000000000",
-      "name": "1) libera o copo",
-      "query": "UPDATE copos\nSET status = 'disponivel'\nWHERE id = (\n  SELECT id_copo FROM vinculo_copo_cliente\n  WHERE id_cliente = $id_cliente AND ativo = true\n  ORDER BY data_vinculo DESC LIMIT 1\n);",
-      "postgreSQLConfig": "1251550e75985b59",
-      "split": false,
-      "rowsPerMsg": 1,
-      "outputs": 1,
-      "x": 870,
-      "y": 1560,
-      "wires": [
-          [
-              "c1a0000000000054"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000054",
-      "type": "postgresql",
-      "z": "c1a0000000000000",
-      "name": "2) desativa o vinculo",
-      "query": "UPDATE vinculo_copo_cliente\nSET ativo = false\nWHERE id_cliente = $id_cliente AND ativo = true;",
-      "postgreSQLConfig": "1251550e75985b59",
-      "split": false,
-      "rowsPerMsg": 1,
-      "outputs": 1,
-      "x": 1000,
-      "y": 1620,
-      "wires": [
-          [
-              "c1a0000000000053"
-          ]
-      ]
-  },
-  {
-      "id": "c1a0000000000053",
-      "type": "debug",
-      "z": "c1a0000000000000",
-      "name": "debug liberarCopo",
-      "active": true,
-      "tosidebar": true,
-      "console": false,
-      "tostatus": false,
-      "complete": "payload",
-      "targetType": "msg",
-      "statusVal": "",
-      "statusType": "auto",
-      "x": 1130,
-      "y": 1560,
-      "wires": []
-  }
+    {
+        "id": "c1a0000000000000",
+        "type": "tab",
+        "label": "Cardapio, Pedidos e Conta",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c1a0000000000001",
+        "type": "mqtt in",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/getCardapio",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fa7923ade7c363e8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "c1a0000000000002"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000002",
+        "type": "change",
+        "z": "c1a0000000000000",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 160,
+        "wires": [
+            [
+                "c1a0000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000003",
+        "type": "postgresql",
+        "z": "c1a0000000000000",
+        "name": "",
+        "query": "SELECT id, preco, categoria, nome_comida, descricao\nFROM cardapio\nWHERE categoria = $categoria;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 850,
+        "y": 160,
+        "wires": [
+            [
+                "c1a0000000000004",
+                "c1a0000000000005"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000004",
+        "type": "debug",
+        "z": "c1a0000000000000",
+        "name": "debug cardapio",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000005",
+        "type": "mqtt out",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/cardapio",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fa7923ade7c363e8",
+        "x": 1150,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000010",
+        "type": "mqtt in",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/registrarPedido",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fa7923ade7c363e8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 440,
+        "wires": [
+            [
+                "c1a0000000000011"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000011",
+        "type": "change",
+        "z": "c1a0000000000000",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 440,
+        "wires": [
+            [
+                "c1a0000000000012"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000012",
+        "type": "postgresql",
+        "z": "c1a0000000000000",
+        "name": "",
+        "query": "INSERT INTO consumo_comidas (id_comida, id_copo)\nVALUES (\n  $id_produto,\n  (SELECT id_copo FROM vinculo_copo_cliente WHERE id_cliente = $id_cliente AND ativo = true ORDER BY data_vinculo DESC LIMIT 1)\n);",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 870,
+        "y": 440,
+        "wires": [
+            [
+                "c1a0000000000013"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000013",
+        "type": "debug",
+        "z": "c1a0000000000000",
+        "name": "debug registrarPedido",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000020",
+        "type": "mqtt in",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/getMeusPedidos",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fa7923ade7c363e8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 720,
+        "wires": [
+            [
+                "c1a0000000000021"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000021",
+        "type": "change",
+        "z": "c1a0000000000000",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 720,
+        "wires": [
+            [
+                "c1a0000000000022"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000022",
+        "type": "postgresql",
+        "z": "c1a0000000000000",
+        "name": "",
+        "query": "SELECT consumo_comidas.id, consumo_comidas.created_at,\n       consumo_comidas.id_comida AS id_produto,\n       cardapio.nome_comida, cardapio.preco\nFROM consumo_comidas\nJOIN cardapio ON cardapio.id = consumo_comidas.id_comida\nJOIN vinculo_copo_cliente v ON v.id_copo = consumo_comidas.id_copo\nWHERE v.id_cliente = $id_cliente\nORDER BY consumo_comidas.created_at DESC;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 850,
+        "y": 720,
+        "wires": [
+            [
+                "c1a0000000000023",
+                "c1a0000000000024"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000023",
+        "type": "debug",
+        "z": "c1a0000000000000",
+        "name": "debug meusPedidos",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000024",
+        "type": "mqtt out",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/meusPedidos",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fa7923ade7c363e8",
+        "x": 1150,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000030",
+        "type": "mqtt in",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/getCopo",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fa7923ade7c363e8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 1000,
+        "wires": [
+            [
+                "c1a0000000000031"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000031",
+        "type": "change",
+        "z": "c1a0000000000000",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 1000,
+        "wires": [
+            [
+                "c1a0000000000032"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000032",
+        "type": "postgresql",
+        "z": "c1a0000000000000",
+        "name": "",
+        "query": "SELECT copos.*, v.id_cliente\nFROM copos\nLEFT JOIN vinculo_copo_cliente v ON v.id_copo = copos.id AND v.ativo = true\nWHERE copos.rfid = $rfid;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 850,
+        "y": 1000,
+        "wires": [
+            [
+                "c1a0000000000033",
+                "c1a0000000000034"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000033",
+        "type": "debug",
+        "z": "c1a0000000000000",
+        "name": "debug copo",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000034",
+        "type": "mqtt out",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/copo",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fa7923ade7c363e8",
+        "x": 1140,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000040",
+        "type": "mqtt in",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/getTotalConta",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fa7923ade7c363e8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 1280,
+        "wires": [
+            [
+                "c1a0000000000041"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000041",
+        "type": "change",
+        "z": "c1a0000000000000",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 540,
+        "y": 1280,
+        "wires": [
+            [
+                "c1a0000000000042"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000042",
+        "type": "postgresql",
+        "z": "c1a0000000000000",
+        "name": "",
+        "query": "SELECT\n  COALESCE((\n    SELECT SUM(cardapio.preco)\n    FROM consumo_comidas\n    JOIN cardapio ON cardapio.id = consumo_comidas.id_comida\n    JOIN vinculo_copo_cliente v ON v.id_copo = consumo_comidas.id_copo\n    WHERE v.id_cliente = $id_cliente AND v.ativo = true\n  ), 0)\n  +\n  COALESCE((\n    SELECT SUM(cb.valor_real - cb.desconto)\n    FROM consumo_bebidas cb\n    JOIN vinculo_copo_cliente v ON v.id = cb.vinculo_copo_cliente\n    WHERE v.id_cliente = $id_cliente AND v.ativo = true\n  ), 0)\n  AS total;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 870,
+        "y": 1280,
+        "wires": [
+            [
+                "c1a0000000000043",
+                "c1a0000000000044"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000043",
+        "type": "debug",
+        "z": "c1a0000000000000",
+        "name": "debug totalConta",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000044",
+        "type": "mqtt out",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/totalConta",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fa7923ade7c363e8",
+        "x": 1160,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "c1a0000000000050",
+        "type": "mqtt in",
+        "z": "c1a0000000000000",
+        "name": "",
+        "topic": "bet/liberarCopo",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fa7923ade7c363e8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 1560,
+        "wires": [
+            [
+                "c1a0000000000051"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000051",
+        "type": "change",
+        "z": "c1a0000000000000",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 1560,
+        "wires": [
+            [
+                "c1a0000000000052"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000052",
+        "type": "postgresql",
+        "z": "c1a0000000000000",
+        "name": "1) libera o copo",
+        "query": "UPDATE copos\nSET status = 'disponivel'\nWHERE id = (\n  SELECT id_copo FROM vinculo_copo_cliente\n  WHERE id_cliente = $id_cliente AND ativo = true\n  ORDER BY data_vinculo DESC LIMIT 1\n);",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 870,
+        "y": 1560,
+        "wires": [
+            [
+                "c1a0000000000054"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000054",
+        "type": "postgresql",
+        "z": "c1a0000000000000",
+        "name": "2) desativa o vinculo",
+        "query": "UPDATE vinculo_copo_cliente\nSET ativo = false\nWHERE id_cliente = $id_cliente AND ativo = true;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1000,
+        "y": 1620,
+        "wires": [
+            [
+                "c1a0000000000053"
+            ]
+        ]
+    },
+    {
+        "id": "c1a0000000000053",
+        "type": "debug",
+        "z": "c1a0000000000000",
+        "name": "debug liberarCopo",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "fa7923ade7c363e8",
+        "type": "mqtt-broker",
+        "name": "MQTT",
+        "broker": "mqtt.janks.dev.br",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "5",
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1251550e75985b59",
+        "type": "postgreSQLConfig",
+        "name": "PostgreSQL",
+        "host": "postgresql.janks.dev.br",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "projeto_b",
+        "databaseFieldType": "str",
+        "ssl": "true",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "iot",
+        "userFieldType": "str",
+        "password": "pepcon-garton",
+        "passwordFieldType": "str"
+    }
 ]

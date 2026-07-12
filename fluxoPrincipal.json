@@ -1,6 +1,6 @@
 [
     {
-        "id": "7bc5b28782596e46",
+        "id": "ed464f0a6845ec56",
         "type": "tab",
         "label": "Fluxo 5",
         "disabled": false,
@@ -8,9 +8,9 @@
         "env": []
     },
     {
-        "id": "654dbb630a3f9082",
+        "id": "12bf83cca6c91fb6",
         "type": "mqtt in",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "topic": "bet/realizarAposta",
         "qos": "2",
@@ -24,15 +24,15 @@
         "y": 780,
         "wires": [
             [
-                "600731b61635b301",
-                "b719174506b7584c"
+                "81f38b9c7d8eef7d",
+                "c67ee0f2d35eb51d"
             ]
         ]
     },
     {
-        "id": "600731b61635b301",
+        "id": "81f38b9c7d8eef7d",
         "type": "change",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "rules": [
             {
@@ -52,15 +52,15 @@
         "y": 780,
         "wires": [
             [
-                "37bf12db4c0a2192",
-                "405664427b9a6033"
+                "c188da8cef99a26a",
+                "c955f1f9e4a3ce3d"
             ]
         ]
     },
     {
-        "id": "37bf12db4c0a2192",
+        "id": "c188da8cef99a26a",
         "type": "postgresql",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "query": "INSERT INTO bets (id_cliente, id_partida, id_time_apostado) VALUES\n($id_cliente, $id_partida, $id_time_apostado)",
         "postgreSQLConfig": "1251550e75985b59",
@@ -71,15 +71,15 @@
         "y": 780,
         "wires": [
             [
-                "8421433cc34a4d78",
-                "9a7772999121f9ed"
+                "d9f00722288cc473",
+                "16b5069912760604"
             ]
         ]
     },
     {
-        "id": "8421433cc34a4d78",
+        "id": "d9f00722288cc473",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 12",
         "active": false,
         "tosidebar": true,
@@ -94,9 +94,9 @@
         "wires": []
     },
     {
-        "id": "405664427b9a6033",
+        "id": "c955f1f9e4a3ce3d",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 13",
         "active": false,
         "tosidebar": true,
@@ -110,9 +110,9 @@
         "wires": []
     },
     {
-        "id": "b719174506b7584c",
+        "id": "c67ee0f2d35eb51d",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 14",
         "active": false,
         "tosidebar": true,
@@ -126,9 +126,9 @@
         "wires": []
     },
     {
-        "id": "9a7772999121f9ed",
+        "id": "16b5069912760604",
         "type": "mqtt out",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "topic": "bet/apostaConfirmada",
         "qos": "1",
@@ -144,9 +144,9 @@
         "wires": []
     },
     {
-        "id": "50a9cd58b373eadb",
+        "id": "7c0be8741199e678",
         "type": "mqtt in",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "topic": "bet/consultarAposta",
         "qos": "2",
@@ -160,15 +160,15 @@
         "y": 1060,
         "wires": [
             [
-                "afb5e8a840facdc4",
-                "7e79dd5c5694edc9"
+                "6e72820e697e346c",
+                "2690d4dd208b54eb"
             ]
         ]
     },
     {
-        "id": "afb5e8a840facdc4",
+        "id": "6e72820e697e346c",
         "type": "change",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "rules": [
             {
@@ -188,15 +188,15 @@
         "y": 1060,
         "wires": [
             [
-                "1a4226118e6f60f5",
-                "276fc3ba5567ee41"
+                "49af4e25f654a9e8",
+                "f0c8463222e38ae1"
             ]
         ]
     },
     {
-        "id": "1a4226118e6f60f5",
+        "id": "49af4e25f654a9e8",
         "type": "postgresql",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "query": "SELECT \n  b.*,\n  t.nome AS nome_time_apostado\nFROM bets b\nLEFT JOIN times t ON b.id_time_apostado = t.id_time\nWHERE b.id_cliente = $id_cliente;",
         "postgreSQLConfig": "1251550e75985b59",
@@ -207,15 +207,15 @@
         "y": 1060,
         "wires": [
             [
-                "7c733bd60e05d565",
-                "724e4555027cdd64"
+                "49f4d35e0e2d999a",
+                "17bd35b5be74353c"
             ]
         ]
     },
     {
-        "id": "7c733bd60e05d565",
+        "id": "49f4d35e0e2d999a",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 15",
         "active": true,
         "tosidebar": true,
@@ -230,9 +230,9 @@
         "wires": []
     },
     {
-        "id": "276fc3ba5567ee41",
+        "id": "f0c8463222e38ae1",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 16",
         "active": true,
         "tosidebar": true,
@@ -246,9 +246,9 @@
         "wires": []
     },
     {
-        "id": "7e79dd5c5694edc9",
+        "id": "2690d4dd208b54eb",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 17",
         "active": true,
         "tosidebar": true,
@@ -262,9 +262,9 @@
         "wires": []
     },
     {
-        "id": "724e4555027cdd64",
+        "id": "17bd35b5be74353c",
         "type": "mqtt out",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "topic": "bet/minhasApostas",
         "qos": "1",
@@ -280,9 +280,9 @@
         "wires": []
     },
     {
-        "id": "d3ae8862065ab671",
+        "id": "67fad8a01acfe9cc",
         "type": "mqtt in",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "topic": "bet/getPartidas",
         "qos": "2",
@@ -296,15 +296,15 @@
         "y": 520,
         "wires": [
             [
-                "3cfe83860285bbaa",
-                "b950a77be47080a0"
+                "0ba11470fd2d1921",
+                "d35c0cad894baed3"
             ]
         ]
     },
     {
-        "id": "3cfe83860285bbaa",
+        "id": "0ba11470fd2d1921",
         "type": "change",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "rules": [
             {
@@ -324,15 +324,15 @@
         "y": 520,
         "wires": [
             [
-                "7e93b0b788eaf3c8",
-                "34d19ba1fae6791c"
+                "e860f32a11d76e8b",
+                "04ee746457834f88"
             ]
         ]
     },
     {
-        "id": "7e93b0b788eaf3c8",
+        "id": "e860f32a11d76e8b",
         "type": "postgresql",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "query": "SELECT \n  p.*,\n  tm.nome AS mandante_nome,\n  tv.nome AS visitante_nome\nFROM partidas p\nLEFT JOIN times tm ON p.mandante = tm.id_time\nLEFT JOIN times tv ON p.visitante = tv.id_time\nWHERE p.status = 'em_andamento';",
         "postgreSQLConfig": "1251550e75985b59",
@@ -343,15 +343,15 @@
         "y": 520,
         "wires": [
             [
-                "824989bda0f40710",
-                "c99ec6c06e89c13b"
+                "6a1674a55cdcf416",
+                "f278bbeda62081dd"
             ]
         ]
     },
     {
-        "id": "824989bda0f40710",
+        "id": "6a1674a55cdcf416",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 18",
         "active": false,
         "tosidebar": true,
@@ -366,9 +366,9 @@
         "wires": []
     },
     {
-        "id": "34d19ba1fae6791c",
+        "id": "04ee746457834f88",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 19",
         "active": false,
         "tosidebar": true,
@@ -382,9 +382,9 @@
         "wires": []
     },
     {
-        "id": "b950a77be47080a0",
+        "id": "d35c0cad894baed3",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 20",
         "active": false,
         "tosidebar": true,
@@ -398,9 +398,9 @@
         "wires": []
     },
     {
-        "id": "c99ec6c06e89c13b",
+        "id": "f278bbeda62081dd",
         "type": "mqtt out",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "topic": "bet/partidas",
         "qos": "1",
@@ -416,9 +416,9 @@
         "wires": []
     },
     {
-        "id": "d46f72664714552c",
+        "id": "3fb5473842a63e8c",
         "type": "mqtt in",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "topic": "bet/autenticaCliente",
         "qos": "2",
@@ -432,15 +432,15 @@
         "y": 280,
         "wires": [
             [
-                "23236d0db59c98f3",
-                "f2d6e0a5836aa0c3"
+                "d3fdba6167bc0e3f",
+                "8f349a8427cd3820"
             ]
         ]
     },
     {
-        "id": "23236d0db59c98f3",
+        "id": "d3fdba6167bc0e3f",
         "type": "change",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "rules": [
             {
@@ -460,15 +460,15 @@
         "y": 280,
         "wires": [
             [
-                "f5f1853168aa68cd",
-                "317bac917768f976"
+                "82c3b4299f7b6154",
+                "d936b6bbd8594b9e"
             ]
         ]
     },
     {
-        "id": "f5f1853168aa68cd",
+        "id": "82c3b4299f7b6154",
         "type": "postgresql",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "query": "SELECT clientes.*\nFROM copos\nJOIN vinculo_copo_cliente v ON v.id_copo = copos.id AND v.ativo = true\nJOIN clientes ON clientes.id = v.id_cliente\nWHERE copos.rfid = $rfid;",
         "postgreSQLConfig": "1251550e75985b59",
@@ -479,15 +479,15 @@
         "y": 280,
         "wires": [
             [
-                "ea1f992fcf575bb8",
-                "59e25b20d1cef81d"
+                "65f593d4da691801",
+                "3ce841d8c85bfa58"
             ]
         ]
     },
     {
-        "id": "ea1f992fcf575bb8",
+        "id": "65f593d4da691801",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 21",
         "active": true,
         "tosidebar": true,
@@ -502,9 +502,9 @@
         "wires": []
     },
     {
-        "id": "317bac917768f976",
+        "id": "d936b6bbd8594b9e",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 22",
         "active": true,
         "tosidebar": true,
@@ -518,9 +518,9 @@
         "wires": []
     },
     {
-        "id": "f2d6e0a5836aa0c3",
+        "id": "8f349a8427cd3820",
         "type": "debug",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "debug 23",
         "active": true,
         "tosidebar": true,
@@ -534,9 +534,9 @@
         "wires": []
     },
     {
-        "id": "59e25b20d1cef81d",
+        "id": "3ce841d8c85bfa58",
         "type": "mqtt out",
-        "z": "7bc5b28782596e46",
+        "z": "ed464f0a6845ec56",
         "name": "",
         "topic": "dadosCliente",
         "qos": "1",
